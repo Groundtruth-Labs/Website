@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { LoginForm } from "@/components/auth/LoginForm";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Client Login",
   description: "Access your Groundtruth Labs client dashboard.",

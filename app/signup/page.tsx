@@ -1,5 +1,7 @@
 import { SignupForm } from "@/components/auth/SignupForm";
 
+export const dynamic = "force-dynamic";
+
 export const metadata = {
   title: "Create account | Groundtruth Labs",
 };
