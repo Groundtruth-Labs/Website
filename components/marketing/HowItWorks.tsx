@@ -196,8 +196,8 @@ export function HowItWorks() {
             <Background
               variant={BackgroundVariant.Dots}
               gap={16}
-              size={1}
-              color="#e2e8f0"
+              size={1.5}
+              color="#cbd5e1"
             />
           </ReactFlow>
         </motion.div>
