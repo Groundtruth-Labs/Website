@@ -46,7 +46,9 @@
   }
 }
 
-/* Hide ReactFlow connection handles — diagram is purely decorative */
+/* Hide ReactFlow connection handles visually — diagram is purely decorative */
+/* Must use opacity/pointer-events, not display:none, or getBoundingClientRect returns 0 and edges break */
 .react-flow__handle {
-  display: none !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
 }

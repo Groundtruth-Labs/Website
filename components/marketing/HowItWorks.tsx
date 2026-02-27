@@ -169,12 +169,7 @@ export function HowItWorks() {
         </motion.div>
 
         {/* ReactFlow diagram */}
-        <motion.div
-          suppressHydrationWarning
-          initial={{ opacity: 0, scale: 0.96 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true, margin: "-60px" }}
-          transition={{ duration: 0.55, delay: 0.1, ease: "easeOut" }}
+        <div
           className="border border-slate-200 bg-white rounded shadow-sm overflow-hidden"
           style={{ height: 280 }}
         >
@@ -200,7 +195,7 @@ export function HowItWorks() {
               color="#cbd5e1"
             />
           </ReactFlow>
-        </motion.div>
+        </div>
 
         {/* Steps description */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
