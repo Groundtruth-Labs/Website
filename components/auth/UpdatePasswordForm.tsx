@@ -1,10 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useSearchParams } from "next/navigation";
+import { useState } from "react";
 import { ArrowRight, Eye, EyeOff } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -13,23 +11,13 @@ import { useRouter } from "next/navigation";
 
 type State = "idle" | "loading" | "error" | "success";
 
-export function SignupForm() {
-  const searchParams = useSearchParams();
-  const [email, setEmail] = useState("");
+export function UpdatePasswordForm() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [company, setCompany] = useState("");
   const [state, setState] = useState<State>("idle");
   const [error, setError] = useState("");
   const router = useRouter();
-
-  useEffect(() => {
-    const emailParam = searchParams.get("email");
-    if (emailParam) {
-      setEmail(emailParam);
-    }
-  }, [searchParams]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -49,18 +37,10 @@ export function SignupForm() {
     }
 
     const supabase = createClient();
-    const { error: signupError } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        data: {
-          company_name: company || undefined,
-        },
-      },
-    });
+    const { error: updateError } = await supabase.auth.updateUser({ password });
 
-    if (signupError) {
-      setError(signupError.message);
+    if (updateError) {
+      setError(updateError.message);
       setState("error");
     } else {
       setState("success");
@@ -75,15 +55,25 @@ export function SignupForm() {
     return (
       <div className="text-center py-8">
         <div className="w-14 h-14 bg-green-50 border border-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-          <svg className="w-7 h-7 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+          <svg
+            className="w-7 h-7 text-green-500"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M5 13l4 4L19 7"
+            />
           </svg>
         </div>
         <h2 className="font-mono text-xl font-semibold text-slate-900 mb-2">
-          Account created
+          Password updated
         </h2>
         <p className="font-sans text-sm text-slate-600">
-          Welcome! Redirecting to your dashboard...
+          Redirecting to your dashboard...
         </p>
       </div>
     );
@@ -106,41 +96,15 @@ export function SignupForm() {
       </div>
 
       <h1 className="font-mono text-2xl font-bold text-slate-900 mb-1">
-        Create account
+        New password
       </h1>
       <p className="font-sans text-sm text-slate-600 mb-8">
-        Set up your client dashboard.
+        Choose a strong password for your account.
       </p>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="space-y-1.5">
-          <Label htmlFor="email">Email</Label>
-          <Input
-            id="email"
-            type="email"
-            placeholder="name@company.com"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            autoFocus
-            disabled={state === "loading"}
-          />
-        </div>
-
-        <div className="space-y-1.5">
-          <Label htmlFor="company">Company (optional)</Label>
-          <Input
-            id="company"
-            type="text"
-            placeholder="Your company name"
-            value={company}
-            onChange={(e) => setCompany(e.target.value)}
-            disabled={state === "loading"}
-          />
-        </div>
-
-        <div className="space-y-1.5">
-          <Label htmlFor="password">Password</Label>
+          <Label htmlFor="password">New password</Label>
           <div className="relative">
             <Input
               id="password"
@@ -149,6 +113,7 @@ export function SignupForm() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
+              autoFocus
               disabled={state === "loading"}
               className="pr-10"
             />
@@ -158,14 +123,18 @@ export function SignupForm() {
               className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors"
               tabIndex={-1}
             >
-              {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+              {showPassword ? (
+                <EyeOff className="w-4 h-4" />
+              ) : (
+                <Eye className="w-4 h-4" />
+              )}
             </button>
           </div>
           <p className="font-sans text-xs text-slate-400">Minimum 8 characters</p>
         </div>
 
         <div className="space-y-1.5">
-          <Label htmlFor="confirmPassword">Confirm password</Label>
+          <Label htmlFor="confirmPassword">Confirm new password</Label>
           <div className="relative">
             <Input
               id="confirmPassword"
@@ -183,7 +152,11 @@ export function SignupForm() {
               className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors"
               tabIndex={-1}
             >
-              {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+              {showPassword ? (
+                <EyeOff className="w-4 h-4" />
+              ) : (
+                <Eye className="w-4 h-4" />
+              )}
             </button>
           </div>
         </div>
@@ -197,25 +170,18 @@ export function SignupForm() {
         <Button
           type="submit"
           className="w-full"
-          disabled={state === "loading" || !email || !password || !confirmPassword}
+          disabled={state === "loading" || !password || !confirmPassword}
         >
           {state === "loading" ? (
-            "Creating account…"
+            "Updating password…"
           ) : (
             <>
-              Create account
+              Update password
               <ArrowRight className="w-4 h-4" />
             </>
           )}
         </Button>
       </form>
-
-      <p className="font-sans text-xs text-slate-400 mt-6 text-center">
-        Already have an account?{" "}
-        <Link href="/login" className="text-cyan-700 hover:underline">
-          Sign in
-        </Link>
-      </p>
     </div>
   );
 }

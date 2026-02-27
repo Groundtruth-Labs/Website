@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Eye, EyeOff } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -17,6 +17,7 @@ export function LoginForm() {
   const searchParams = useSearchParams();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [state, setState] = useState<State>("idle");
   const [error, setError] = useState("");
   const router = useRouter();
@@ -88,15 +89,26 @@ export function LoginForm() {
 
         <div className="space-y-1.5">
           <Label htmlFor="password">Password</Label>
-          <Input
-            id="password"
-            type="password"
-            placeholder="••••••••"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            disabled={state === "loading"}
-          />
+          <div className="relative">
+            <Input
+              id="password"
+              type={showPassword ? "text" : "password"}
+              placeholder="••••••••"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              disabled={state === "loading"}
+              className="pr-10"
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword((v) => !v)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors"
+              tabIndex={-1}
+            >
+              {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+            </button>
+          </div>
         </div>
 
         {state === "error" && (
@@ -122,6 +134,12 @@ export function LoginForm() {
       </form>
 
       <p className="font-sans text-xs text-slate-400 mt-6 text-center">
+        <Link href="/reset-password" className="text-cyan-700 hover:underline">
+          Forgot password?
+        </Link>
+      </p>
+
+      <p className="font-sans text-xs text-slate-400 mt-3 text-center">
         Don&apos;t have an account?{" "}
         <Link href="/signup" className="text-cyan-700 hover:underline">
           Create one

@@ -75,7 +75,7 @@ export function OnboardingForm({ email, prefill }: OnboardingFormProps) {
           type="text"
           required
           defaultValue={prefill?.contact_name ?? ""}
-          placeholder="e.g. Kai Nakamura"
+          placeholder="e.g. Jane Doe"
           className="w-full font-sans text-sm border border-slate-200 rounded px-3 py-2.5 bg-white text-slate-900 placeholder:text-slate-300 focus:outline-none focus:ring-2 focus:ring-cyan-700/20 focus:border-cyan-700 transition-colors"
         />
       </div>

@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { createClient } from "@/lib/supabase/server";
 import { Folder, Mail, Send } from "lucide-react";
 import { resendInvite } from "./actions";
-import { InviteClientDialog } from "@/components/admin/InviteClientDialog";
 
 export const metadata: Metadata = { title: "Clients" };
 
@@ -53,7 +52,6 @@ export default async function ClientsPage() {
               </span>
             </div>
           )}
-          <InviteClientDialog />
         </div>
       </div>
 

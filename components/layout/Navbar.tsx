@@ -9,6 +9,11 @@ import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "motion/react";
 import { ProfileMenu } from "@/components/layout/ProfileMenu";
 
+const FULL = "Groundtruth Labs";
+const ALL_CHARS = Array.from(FULL).map((char, i) => ({ char, index: i }));
+// G = index 0, L = index 12 — these persist across both states as layout anchors
+const COLLAPSED = [ALL_CHARS[0], ALL_CHARS[12]];
+
 const navLinks = [
   { href: "/services/agriculture", label: "Agriculture" },
   { href: "/services/construction", label: "Construction" },
@@ -20,10 +25,12 @@ export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20);
+    const handleScroll = () => setScrolled(window.scrollY > 60);
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const chars = scrolled ? COLLAPSED : ALL_CHARS;
 
   return (
     <header
@@ -36,7 +43,7 @@ export function Navbar() {
     >
       <nav className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between md:grid md:grid-cols-[1fr_auto_1fr] gap-4">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2 group">
+        <Link href="/" className="flex items-center gap-2 group" aria-label="Groundtruth Labs">
           <Image
             src="/favicon.png"
             alt="Groundtruth Labs logo"
@@ -44,33 +51,36 @@ export function Navbar() {
             height={28}
             className="rounded flex-shrink-0"
           />
-          <div className="overflow-hidden">
-            <AnimatePresence mode="wait" initial={false}>
-              {scrolled ? (
+          {/* Single persistent char list — G (key=0) and L (key=12) survive both states
+              and layout-animate toward each other as middle chars fade out via popLayout */}
+          <motion.span
+            className="font-mono font-semibold text-slate-900 tracking-tight text-sm inline-flex relative"
+          >
+            <AnimatePresence mode="popLayout" initial={false}>
+              {chars.map(({ char, index }) => (
                 <motion.span
-                  key="short"
-                  initial={{ opacity: 0, y: -6 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 6 }}
-                  transition={{ duration: 0.18, ease: "easeOut" }}
-                  className="font-mono font-semibold text-slate-900 tracking-tight text-sm block whitespace-nowrap"
+                  key={index}
+                  layout="position"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0, transition: { duration: 0.15, ease: "easeOut" } }}
+                  transition={{
+                    layout: { duration: 0.3, ease: "easeOut" },
+                    opacity: {
+                      duration: 0.2,
+                      ease: "easeOut",
+                      // On expand: wait for G/L to slide back before fading chars in.
+                      // Stagger left-to-right so letters fill in from the anchors outward.
+                      delay: scrolled ? 0 : 0.25 + index * 0.008,
+                    },
+                  }}
+                  className="inline-block"
                 >
-                  GL
+                  {char === " " ? "\u00A0" : char}
                 </motion.span>
-              ) : (
-                <motion.span
-                  key="full"
-                  initial={{ opacity: 0, y: -6 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 6 }}
-                  transition={{ duration: 0.18, ease: "easeOut" }}
-                  className="font-mono font-semibold text-slate-900 tracking-tight text-sm block whitespace-nowrap"
-                >
-                  Groundtruth Labs
-                </motion.span>
-              )}
+              ))}
             </AnimatePresence>
-          </div>
+          </motion.span>
         </Link>
 
         {/* Desktop nav — center */}

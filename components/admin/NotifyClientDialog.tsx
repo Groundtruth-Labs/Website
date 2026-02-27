@@ -17,24 +17,44 @@ export function NotifyClientDialog({
   clientEmail,
   clientName,
 }: NotifyClientDialogProps) {
-  const [copied, setCopied] = useState(false);
+  const [copiedSubject, setCopiedSubject] = useState(false);
+  const [copiedBody, setCopiedBody] = useState(false);
 
-  const loginLink = `${typeof window !== "undefined" ? window.location.origin : ""}/login?email=${encodeURIComponent(clientEmail)}`;
-  const signupLink = `${typeof window !== "undefined" ? window.location.origin : ""}/signup?email=${encodeURIComponent(clientEmail)}`;
+  const origin = typeof window !== "undefined" ? window.location.origin : "";
+  const signupLink = `${origin}/signup?email=${encodeURIComponent(clientEmail)}`;
+  const loginLink = `${origin}/login?email=${encodeURIComponent(clientEmail)}`;
 
-  const message = `Client Email: ${clientEmail}
+  const firstName = clientName.split(" ")[0];
 
-Login (if account exists):
+  const subject = `Your Groundtruth Labs dashboard is ready`;
+
+  const body = `Hi ${firstName},
+
+Your client dashboard is set up and ready to go. You can access your project deliverables, NDVI maps, reports, and site progress all in one place.
+
+To get started, create your account using the link below (it takes about 30 seconds):
+
+${signupLink}
+
+If you already have an account, sign in here:
+
 ${loginLink}
 
-Sign Up (if new account):
-${signupLink}`;
+Let us know if you run into any issues or have questions.
 
-  const copyToClipboard = async () => {
+Best,
+Groundtruth Labs`;
+
+  const copyText = async (text: string, type: "subject" | "body") => {
     try {
-      await navigator.clipboard.writeText(message);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
+      await navigator.clipboard.writeText(text);
+      if (type === "subject") {
+        setCopiedSubject(true);
+        setTimeout(() => setCopiedSubject(false), 2000);
+      } else {
+        setCopiedBody(true);
+        setTimeout(() => setCopiedBody(false), 2000);
+      }
     } catch (err) {
       console.error("Failed to copy:", err);
     }
@@ -44,7 +64,7 @@ ${signupLink}`;
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded border border-slate-200 shadow-lg w-full max-w-md">
+      <div className="bg-white rounded border border-slate-200 shadow-lg w-full max-w-lg">
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100">
           <h2 className="font-mono font-semibold text-slate-900">
@@ -60,22 +80,50 @@ ${signupLink}`;
 
         {/* Content */}
         <div className="p-6 space-y-4">
-          <p className="font-sans text-sm text-slate-600">
-            Copy and send this to your client:
-          </p>
+          {/* Subject */}
+          <div>
+            <div className="flex items-center justify-between mb-1.5">
+              <span className="font-mono text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                Subject
+              </span>
+              <button
+                onClick={() => copyText(subject, "subject")}
+                className="font-sans text-xs text-cyan-700 hover:underline"
+              >
+                {copiedSubject ? "Copied!" : "Copy"}
+              </button>
+            </div>
+            <div className="bg-slate-50 border border-slate-200 rounded px-3 py-2 font-sans text-sm text-slate-700">
+              {subject}
+            </div>
+          </div>
 
-          <div className="bg-slate-50 border border-slate-200 rounded p-4 font-mono text-xs overflow-auto max-h-64">
-            <pre className="whitespace-pre-wrap break-words text-slate-700">
-              {message}
-            </pre>
+          {/* Body */}
+          <div>
+            <div className="flex items-center justify-between mb-1.5">
+              <span className="font-mono text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                Body
+              </span>
+              <button
+                onClick={() => copyText(body, "body")}
+                className="font-sans text-xs text-cyan-700 hover:underline"
+              >
+                {copiedBody ? "Copied!" : "Copy"}
+              </button>
+            </div>
+            <div className="bg-slate-50 border border-slate-200 rounded p-3 font-sans text-sm text-slate-700 overflow-auto max-h-72">
+              <pre className="whitespace-pre-wrap break-words leading-relaxed">
+                {body}
+              </pre>
+            </div>
           </div>
 
           <Button
-            onClick={copyToClipboard}
+            onClick={() => copyText(`Subject: ${subject}\n\n${body}`, "body")}
             className="w-full flex items-center justify-center gap-2"
           >
             <Copy className="w-4 h-4" />
-            {copied ? "Copied!" : "Copy to clipboard"}
+            {copiedBody ? "Copied!" : "Copy everything"}
           </Button>
         </div>
       </div>

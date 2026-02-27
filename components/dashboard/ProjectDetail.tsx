@@ -6,6 +6,7 @@ import { ReportViewer } from "@/components/dashboard/ReportViewer";
 import { NdviStatsCard } from "@/components/dashboard/NdviStatsCard";
 import { formatDate } from "@/lib/utils";
 import { MapPin, Calendar, CheckCircle2, Clock, Circle } from "lucide-react";
+import { motion } from "motion/react";
 
 interface Deliverable {
   id: string;
@@ -113,8 +114,13 @@ export function ProjectDetail({ project }: { project: Project }) {
         </TabsList>
 
         {/* Overview */}
-        <TabsContent value="overview">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <TabsContent value="overview" asChild>
+          <motion.div
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, ease: "easeOut" }}
+          >
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Status timeline */}
             <div className="border border-slate-200 bg-white rounded p-6">
               <p className="font-mono text-xs font-semibold text-slate-400 uppercase tracking-widest mb-5">
@@ -191,39 +197,58 @@ export function ProjectDetail({ project }: { project: Project }) {
                 </div>
               </div>
             </div>
-          </div>
+            </div>
+          </motion.div>
         </TabsContent>
 
         {/* Deliverables */}
-        <TabsContent value="deliverables">
-          <DeliverableList deliverables={project.deliverables} />
+        <TabsContent value="deliverables" asChild>
+          <motion.div
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, ease: "easeOut" }}
+          >
+            <DeliverableList deliverables={project.deliverables} />
+          </motion.div>
         </TabsContent>
 
         {/* Reports */}
-        <TabsContent value="reports">
-          <ReportViewer reports={project.reports} />
+        <TabsContent value="reports" asChild>
+          <motion.div
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, ease: "easeOut" }}
+          >
+            <ReportViewer reports={project.reports} />
+          </motion.div>
         </TabsContent>
 
         {/* Analytics — NDVI (agriculture projects only) */}
         {project.type === "agriculture" && (
-          <TabsContent value="analytics">
-            <div className="space-y-4">
-              <div>
-                <p className="font-mono text-xs font-semibold text-slate-400 uppercase tracking-widest mb-1">
-                  Most recent NDVI flight
-                </p>
-                <p className="font-sans text-xs text-slate-500">
-                  Statistics are computed from the processed multispectral output. Each flight produces one result set.
-                </p>
+          <TabsContent value="analytics" asChild>
+            <motion.div
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
+            >
+              <div className="space-y-4">
+                <div>
+                  <p className="font-mono text-xs font-semibold text-slate-400 uppercase tracking-widest mb-1">
+                    Most recent NDVI flight
+                  </p>
+                  <p className="font-sans text-xs text-slate-500">
+                    Statistics are computed from the processed multispectral output. Each flight produces one result set.
+                  </p>
+                </div>
+                <NdviStatsCard
+                  stats={project.ndviStats ?? undefined}
+                  capturedAt={
+                    project.deliverables.find((d) => d.type === "ndvi")
+                      ?.captured_at ?? null
+                  }
+                />
               </div>
-              <NdviStatsCard
-                stats={project.ndviStats ?? undefined}
-                capturedAt={
-                  project.deliverables.find((d) => d.type === "ndvi")
-                    ?.captured_at ?? null
-                }
-              />
-            </div>
+            </motion.div>
           </TabsContent>
         )}
       </Tabs>

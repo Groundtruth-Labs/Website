@@ -9,15 +9,13 @@ import {
   CheckCircle2,
   CircleDashed,
   Eye,
-  Send,
-  RotateCcw,
 } from "lucide-react";
 import {
   markAsHandled,
   markAsUnhandled,
   markAllAsRead,
-  inviteContact,
 } from "./actions";
+import { ScheduleCallButton } from "@/components/admin/ScheduleCallButton";
 
 export const metadata: Metadata = { title: "Contacts" };
 
@@ -151,7 +149,6 @@ function ContactCard({
   isHandled: boolean;
 }) {
   const ind = s.industry ? industryLabel[s.industry as string] : null;
-  const invitedAt = s.invited_at as string | null;
 
   return (
     <div
@@ -169,11 +166,6 @@ function ContactCard({
             {ind && (
               <span className={`font-mono text-xs px-2 py-0.5 rounded ${ind.color}`}>
                 {ind.label}
-              </span>
-            )}
-            {invitedAt && (
-              <span className="font-mono text-xs px-2 py-0.5 rounded bg-green-50 text-green-700">
-                Invited
               </span>
             )}
             {!s.is_read && (
@@ -283,52 +275,18 @@ function ContactCard({
         )}
       </div>
 
-      {/* Invite row — only shown for handled contacts */}
+      {/* Schedule call row — only shown for handled contacts */}
       {isHandled && (
         <div className="px-6 py-3 border-t border-slate-50 flex items-center justify-between bg-slate-50/50">
-          {invitedAt ? (
-            /* Already invited — show date and resend option */
-            <div className="flex items-center gap-3">
-              <div className="flex items-center gap-1.5">
-                <CheckCircle2 className="w-3.5 h-3.5 text-green-500" />
-                <span className="font-sans text-xs text-slate-500">
-                  Portal invite sent{" "}
-                  <span className="font-mono text-xs text-slate-600">
-                    {formatDate(invitedAt)}
-                  </span>
-                </span>
-              </div>
-              <form action={inviteContact}>
-                <input type="hidden" name="id" value={s.id as string} />
-                <input type="hidden" name="email" value={s.email as string} />
-                <button
-                  type="submit"
-                  className="flex items-center gap-1 font-sans text-xs text-slate-400 hover:text-cyan-700 transition-colors"
-                >
-                  <RotateCcw className="w-3 h-3" />
-                  Resend
-                </button>
-              </form>
-            </div>
-          ) : (
-            /* Not yet invited */
-            <div className="flex items-center gap-3">
-              <span className="font-sans text-xs text-slate-400">
-                Client not yet in the portal
-              </span>
-              <form action={inviteContact}>
-                <input type="hidden" name="id" value={s.id as string} />
-                <input type="hidden" name="email" value={s.email as string} />
-                <button
-                  type="submit"
-                  className="flex items-center gap-1.5 px-3 py-1.5 bg-green-600 rounded text-xs font-sans text-white hover:bg-green-700 transition-colors"
-                >
-                  <Send className="w-3 h-3" />
-                  Invite to portal
-                </button>
-              </form>
-            </div>
-          )}
+          <span className="font-sans text-xs text-slate-400">
+            Send a meeting invite to this contact
+          </span>
+          <ScheduleCallButton
+            contactName={s.full_name as string}
+            contactEmail={s.email as string}
+            bestTime={s.best_time as string | null}
+            company={s.company as string | null}
+          />
         </div>
       )}
     </div>
