@@ -65,8 +65,7 @@ export function SignupForm() {
     } else {
       setState("success");
       setTimeout(() => {
-        router.push("/dashboard");
-        router.refresh();
+        router.push("/onboarding");
       }, 1500);
     }
   }

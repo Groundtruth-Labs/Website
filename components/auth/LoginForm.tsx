@@ -45,7 +45,6 @@ export function LoginForm() {
       setState("error");
     } else {
       router.push("/dashboard");
-      router.refresh();
     }
   }
 
