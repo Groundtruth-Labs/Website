@@ -1,12 +1,14 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { DeliverableList } from "@/components/dashboard/DeliverableList";
 import { ReportViewer } from "@/components/dashboard/ReportViewer";
 import { NdviStatsCard } from "@/components/dashboard/NdviStatsCard";
 import { formatDate } from "@/lib/utils";
-import { MapPin, Calendar, CheckCircle2, Clock, Circle } from "lucide-react";
+import { MapPin, Calendar, CheckCircle2, Clock, Circle, ImageIcon } from "lucide-react";
 import { motion } from "motion/react";
+import { createClient } from "@/lib/supabase/client";
 
 interface Deliverable {
   id: string;
@@ -45,6 +47,38 @@ const statusSteps = [
   { key: "completed", label: "Completed" },
 ];
 
+/** Inline thumbnail for the Analytics tab — fetches its own signed URL */
+function AnalyticsFigure({ storagePath, name, capturedAt }: { storagePath: string; name: string; capturedAt: string | null }) {
+  const [src, setSrc] = useState<string | null>(null);
+
+  useEffect(() => {
+    const supabase = createClient();
+    supabase.storage
+      .from("deliverables")
+      .createSignedUrl(storagePath, 3600)
+      .then(({ data }) => { if (data) setSrc(data.signedUrl); });
+  }, [storagePath]);
+
+  return (
+    <div className="border border-slate-200 bg-white rounded overflow-hidden">
+      {src ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img src={src} alt={name} className="w-full object-contain bg-slate-50 max-h-80" />
+      ) : (
+        <div className="w-full h-40 bg-slate-100 flex items-center justify-center">
+          <ImageIcon className="w-6 h-6 text-slate-300" />
+        </div>
+      )}
+      <div className="px-3 py-2 border-t border-slate-100">
+        <p className="font-sans text-xs font-medium text-slate-700">{name}</p>
+        {capturedAt && (
+          <p className="font-mono text-[10px] text-slate-400 mt-0.5">{formatDate(capturedAt)}</p>
+        )}
+      </div>
+    </div>
+  );
+}
+
 const typeColors: Record<string, string> = {
   agriculture: "bg-green-50 text-green-700 border-green-100",
   construction: "bg-cyan-50 text-cyan-700 border-cyan-100",
@@ -59,7 +93,7 @@ export function ProjectDetail({ project }: { project: Project }) {
     <div>
       {/* Project header */}
       <div className="mb-8">
-        <div className="flex flex-wrap items-start gap-3 mb-2">
+        <div className="flex flex-wrap items-center gap-3 mb-2">
           <h1 className="font-mono text-2xl font-bold text-slate-900">
             {project.name}
           </h1>
@@ -231,7 +265,7 @@ export function ProjectDetail({ project }: { project: Project }) {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3, ease: "easeOut" }}
             >
-              <div className="space-y-4">
+              <div className="space-y-6">
                 <div>
                   <p className="font-mono text-xs font-semibold text-slate-400 uppercase tracking-widest mb-1">
                     Most recent NDVI flight
@@ -247,6 +281,26 @@ export function ProjectDetail({ project }: { project: Project }) {
                       ?.captured_at ?? null
                   }
                 />
+                {/* Flight figures */}
+                {project.deliverables.filter((d) => d.type === "figure" && d.file_url).length > 0 && (
+                  <div>
+                    <p className="font-mono text-xs font-semibold text-slate-400 uppercase tracking-widest mb-3">
+                      Flight imagery
+                    </p>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      {project.deliverables
+                        .filter((d) => d.type === "figure" && d.file_url)
+                        .map((d) => (
+                          <AnalyticsFigure
+                            key={d.id}
+                            storagePath={d.file_url!}
+                            name={d.name}
+                            capturedAt={d.captured_at}
+                          />
+                        ))}
+                    </div>
+                  </div>
+                )}
               </div>
             </motion.div>
           </TabsContent>

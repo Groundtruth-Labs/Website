@@ -95,6 +95,7 @@ export async function uploadFigures(formData: FormData) {
   const project_id = formData.get("project_id") as string;
   const captured_at = (formData.get("captured_at") as string) || null;
   const files = formData.getAll("files") as File[];
+  const customLabels = formData.getAll("labels") as string[];
 
   if (!project_id) return { error: "Missing project ID" };
   if (!files.length) return { error: "No files selected" };
@@ -102,9 +103,10 @@ export async function uploadFigures(formData: FormData) {
   const supabase = createAdminClient();
   const ts = Date.now();
 
-  for (const file of files) {
+  for (let i = 0; i < files.length; i++) {
+    const file = files[i];
     const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
-    const storagePath = `${project_id}/${ts}-${safeName}`;
+    const storagePath = `${project_id}/${ts}-${i}-${safeName}`;
 
     const bytes = await file.arrayBuffer();
     const { error: uploadError } = await supabase.storage
@@ -113,11 +115,14 @@ export async function uploadFigures(formData: FormData) {
 
     if (uploadError) return { error: `Upload failed: ${uploadError.message}` };
 
-    // Human-readable name from filename: ndvi_map.png → "Ndvi Map"
-    const label = file.name
-      .replace(/\.(png|jpg|jpeg|webp)$/i, "")
-      .replace(/[_-]/g, " ")
-      .replace(/\b\w/g, (c) => c.toUpperCase());
+    // Use custom label if provided, otherwise derive from filename
+    const label =
+      customLabels[i]?.trim() ||
+      file.name
+        .replace(/\.(png|jpg|jpeg|webp)$/i, "")
+        .replace(/[_-]/g, " ")
+        .replace(/\b\w/g, (c) => c.toUpperCase()) ||
+      "Figure";
 
     const { error: dbError } = await supabase.from("deliverables").insert({
       project_id,

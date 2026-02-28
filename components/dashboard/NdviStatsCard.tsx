@@ -3,6 +3,21 @@
 import { AlertTriangle, Leaf, TrendingUp } from "lucide-react";
 
 // ---------------------------------------------------------------------------
+// Empty state
+// ---------------------------------------------------------------------------
+function NdviEmptyState() {
+  return (
+    <div className="border border-slate-200 bg-white rounded p-10 text-center">
+      <Leaf className="w-8 h-8 text-slate-200 mx-auto mb-3" />
+      <p className="font-mono text-sm text-slate-400">No NDVI data yet.</p>
+      <p className="font-sans text-xs text-slate-400 mt-1">
+        Analytics will appear here once the first flight is processed.
+      </p>
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------------------
 // Types
 // ---------------------------------------------------------------------------
 interface NdviStats {
@@ -24,30 +39,6 @@ interface NdviStatsCardProps {
   stats?: NdviStats;
   capturedAt?: string | null;
 }
-
-// ---------------------------------------------------------------------------
-// Default sample data (used until real JSON is wired to the DB)
-// ---------------------------------------------------------------------------
-const SAMPLE: NdviStats = {
-  count: 327680,
-  mean: 0.7385151386260986,
-  median: 0.7727286219596863,
-  std: 0.18794292211532593,
-  min: -1.0,
-  max: 1.0,
-  p10: 0.6572179198265076,
-  p25: 0.71937495470047,
-  p75: 0.8225117325782776,
-  p90: 0.8664529323577881,
-  class_pct: {
-    "Severely Stressed": 3.07,
-    Stressed: 1.42,
-    Moderate: 0.51,
-    Healthy: 13.63,
-    "Very Healthy": 81.37,
-  },
-  concern_zone_pct: 3.07,
-};
 
 // ---------------------------------------------------------------------------
 // Health class config (worst → best; this is also bar order left → right)
@@ -192,7 +183,8 @@ function StatCard({
 // Main component
 // ---------------------------------------------------------------------------
 export function NdviStatsCard({ stats, capturedAt }: NdviStatsCardProps) {
-  const d = stats ?? SAMPLE;
+  if (!stats) return <NdviEmptyState />;
+  const d = stats;
   const assessment = getAssessment(d);
 
   // Normalize values to the p10–p90 range so the track fills edge-to-edge.

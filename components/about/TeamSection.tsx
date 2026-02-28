@@ -6,12 +6,12 @@ const AVATAR_COLORS = ["#0e7490", "#0f172a", "#f59e0b", "#e2e8f0", "#f8fafc"];
 
 const members = [
   {
-    name: "Tahan Bapna",
+    name: "Tahan B.",
     role: "Co-Founder",
     bio: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.",
   },
   {
-    name: "Josh Zhang",
+    name: "Josh Z.",
     role: "Co-Founder",
     bio: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.",
   },
