@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { FolderOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ProjectCard } from "@/components/dashboard/ProjectCard";
@@ -43,7 +44,7 @@ export function DashboardView({ projects, greeting }: DashboardViewProps) {
             deliverables and reports.
           </p>
           <Button variant="outline" size="sm" asChild>
-            <a href="/book">Book a discovery call</a>
+            <Link href="/book">Book a discovery call</Link>
           </Button>
         </div>
       ) : (
