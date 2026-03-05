@@ -19,6 +19,7 @@ export async function saveOnboarding(formData: FormData) {
   const contact_email = (formData.get("contact_email") as string)?.trim() || user.email;
   const industry = (formData.get("industry") as string) || null;
   const location = (formData.get("location") as string)?.trim() || null;
+  const phone = (formData.get("phone") as string)?.trim() || null;
 
   await supabase
     .from("clients")
@@ -28,6 +29,7 @@ export async function saveOnboarding(formData: FormData) {
       contact_email: contact_email ?? null,
       industry: industry,
       location: location,
+      phone: phone,
       onboarded: true,
     })
     .eq("user_id", user.id);

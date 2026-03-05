@@ -38,14 +38,14 @@ export default async function OnboardingPage() {
     .limit(1)
     .maybeSingle();
 
-  const prefill = submission
-    ? {
-        contact_name: submission.full_name,
-        company_name: submission.company,
-        industry: submission.industry,
-        location: submission.location,
-      }
-    : undefined;
+  const metaCompany = user.user_metadata?.company_name as string | undefined;
+
+  const prefill = {
+    contact_name: submission?.full_name ?? null,
+    company_name: submission?.company ?? metaCompany ?? null,
+    industry: submission?.industry ?? null,
+    location: submission?.location ?? null,
+  };
 
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col items-center justify-center px-4 py-16">

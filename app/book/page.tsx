@@ -3,6 +3,7 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { BookCallForm } from "@/components/book/BookCallForm";
 import { Clock, MapPin, CheckCircle2 } from "lucide-react";
+import { createClient } from "@/lib/supabase/server";
 
 export const metadata: Metadata = {
   title: "Book a Discovery Call",
@@ -16,7 +17,36 @@ const callDetails = [
   { icon: CheckCircle2, text: "No invoice until scope is agreed" },
 ];
 
-export default function BookPage() {
+export default async function BookPage() {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+
+  let prefill: {
+    full_name?: string;
+    email?: string;
+    phone?: string;
+    company?: string;
+    industry?: string;
+    location?: string;
+  } | undefined;
+
+  if (user) {
+    const { data: client } = await supabase
+      .from("clients")
+      .select("contact_name, contact_email, company_name, industry, location, phone")
+      .eq("user_id", user.id)
+      .single();
+
+    prefill = {
+      full_name: client?.contact_name ?? undefined,
+      email: client?.contact_email ?? user.email ?? undefined,
+      phone: client?.phone ?? undefined,
+      company: client?.company_name ?? undefined,
+      industry: client?.industry ?? undefined,
+      location: client?.location ?? undefined,
+    };
+  }
+
   return (
     <>
       <Navbar />
@@ -76,7 +106,7 @@ export default function BookPage() {
 
             {/* Right: form */}
             <div className="bg-white border border-slate-200 rounded p-8 shadow-sm">
-              <BookCallForm />
+              <BookCallForm prefill={prefill} />
             </div>
           </div>
         </div>

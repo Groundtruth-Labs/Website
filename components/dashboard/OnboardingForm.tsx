@@ -34,6 +34,7 @@ interface OnboardingFormProps {
     company_name?: string | null;
     industry?: string | null;
     location?: string | null;
+    phone?: string | null;
   };
 }
 
@@ -57,6 +58,27 @@ export function OnboardingForm({ email, prefill }: OnboardingFormProps) {
           required
           defaultValue={prefill?.company_name ?? ""}
           placeholder="e.g. Maui Farms LLC"
+          className="w-full font-sans text-sm border border-slate-200 rounded px-3 py-2.5 bg-white text-slate-900 placeholder:text-slate-300 focus:outline-none focus:ring-2 focus:ring-cyan-700/20 focus:border-cyan-700 transition-colors"
+        />
+      </div>
+
+      {/* Phone */}
+      <div>
+        <label
+          htmlFor="phone"
+          className="block font-mono text-xs font-semibold text-slate-700 mb-1.5 uppercase tracking-widest"
+        >
+          Phone{" "}
+          <span className="font-sans text-xs font-normal text-slate-400 normal-case tracking-normal">
+            optional
+          </span>
+        </label>
+        <input
+          id="phone"
+          name="phone"
+          type="tel"
+          defaultValue={prefill?.phone ?? ""}
+          placeholder="(808) 555-0123"
           className="w-full font-sans text-sm border border-slate-200 rounded px-3 py-2.5 bg-white text-slate-900 placeholder:text-slate-300 focus:outline-none focus:ring-2 focus:ring-cyan-700/20 focus:border-cyan-700 transition-colors"
         />
       </div>

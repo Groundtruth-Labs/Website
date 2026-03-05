@@ -22,7 +22,18 @@ const times = [
 
 const initial: FormState = { status: "idle" };
 
-export function BookCallForm() {
+interface BookCallFormProps {
+  prefill?: {
+    full_name?: string;
+    email?: string;
+    phone?: string;
+    company?: string;
+    industry?: string;
+    location?: string;
+  };
+}
+
+export function BookCallForm({ prefill }: BookCallFormProps) {
   const [state, action, pending] = useActionState(submitBooking, initial);
 
   if (state.status === "success") {
@@ -59,6 +70,7 @@ export function BookCallForm() {
             name="full_name"
             required
             placeholder="Jane Smith"
+            defaultValue={prefill?.full_name}
             className="w-full border border-slate-200 rounded px-3 py-2.5 text-sm font-sans text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-700 focus:border-transparent transition"
           />
         </div>
@@ -71,6 +83,7 @@ export function BookCallForm() {
             type="email"
             required
             placeholder="jane@company.com"
+            defaultValue={prefill?.email}
             className="w-full border border-slate-200 rounded px-3 py-2.5 text-sm font-sans text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-700 focus:border-transparent transition"
           />
         </div>
@@ -86,6 +99,7 @@ export function BookCallForm() {
             name="phone"
             type="tel"
             placeholder="(808) 555-0123"
+            defaultValue={prefill?.phone}
             className="w-full border border-slate-200 rounded px-3 py-2.5 text-sm font-sans text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-700 focus:border-transparent transition"
           />
         </div>
@@ -96,6 +110,7 @@ export function BookCallForm() {
           <input
             name="company"
             placeholder="Acme Farms LLC"
+            defaultValue={prefill?.company}
             className="w-full border border-slate-200 rounded px-3 py-2.5 text-sm font-sans text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-700 focus:border-transparent transition"
           />
         </div>
@@ -109,6 +124,7 @@ export function BookCallForm() {
         <input
           name="location"
           placeholder="e.g. Kailua, HI or North Shore, Oahu"
+          defaultValue={prefill?.location}
           className="w-full border border-slate-200 rounded px-3 py-2.5 text-sm font-sans text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-700 focus:border-transparent transition"
         />
       </div>
@@ -125,6 +141,7 @@ export function BookCallForm() {
                 type="radio"
                 name="industry"
                 value={ind.value}
+                defaultChecked={prefill?.industry === ind.value}
                 className="sr-only peer"
               />
               <span className="inline-flex items-center px-3 py-1.5 border border-slate-200 rounded text-sm font-mono text-slate-600 peer-checked:border-cyan-700 peer-checked:text-cyan-700 peer-checked:bg-cyan-50 transition-all">
