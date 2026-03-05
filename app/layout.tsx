@@ -41,7 +41,7 @@ export default function RootLayout({
       className={`${GeistSans.variable} ${GeistMono.variable}`}
       suppressHydrationWarning
     >
-      <body>
+      <body suppressHydrationWarning>
         <PostHogProvider>
           <LenisProvider>
             <PageTransition>{children}</PageTransition>

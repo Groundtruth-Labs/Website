@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "motion/react";
 import { ProfileMenu } from "@/components/layout/ProfileMenu";
+import { useUiStore } from "@/lib/store/uiStore";
 
 const FULL = "Groundtruth Labs";
 const ALL_CHARS = Array.from(FULL).map((char, i) => ({ char, index: i }));
@@ -23,6 +24,7 @@ const navLinks = [
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const droneSectionActive = useUiStore((s) => s.droneSectionActive);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 60);
@@ -40,6 +42,11 @@ export function Navbar() {
           ? "bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-sm"
           : "bg-transparent"
       )}
+      style={{
+        opacity: droneSectionActive ? 0 : 1,
+        pointerEvents: droneSectionActive ? 'none' : 'auto',
+        transition: 'opacity 0.4s ease, background-color 0.3s, box-shadow 0.3s',
+      }}
     >
       <nav className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between md:grid md:grid-cols-[1fr_auto_1fr] gap-4">
         {/* Logo */}

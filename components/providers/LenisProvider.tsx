@@ -15,8 +15,7 @@ export function LenisProvider({ children }: { children: React.ReactNode }) {
     if (SKIP_LENIS.some((prefix) => pathname.startsWith(prefix))) return;
 
     const lenis = new Lenis({
-      duration: 1.2,
-      easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      lerp: 0.09,       // proportional easing — settles ~0.6s regardless of distance
       smoothWheel: true,
     });
 

@@ -8,6 +8,7 @@ import { Deliverables } from "@/components/marketing/Deliverables";
 import { TrustSignals } from "@/components/marketing/TrustSignals";
 import { Reviews } from "@/components/marketing/Reviews";
 import { PilotCTA } from "@/components/marketing/PilotCTA";
+import { DroneSection } from "@/components/marketing/DroneSection";
 
 export default async function HomePage() {
   const supabase = await createClient();
@@ -22,6 +23,7 @@ export default async function HomePage() {
       <Navbar />
       <main>
         <Hero />
+        <DroneSection />
         <Services />
         <HowItWorksWrapper />
         <Deliverables />

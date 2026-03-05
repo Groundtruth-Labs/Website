@@ -42,3 +42,5 @@ next-env.d.ts
 # claude
 CLAUDE.md
 .claude/launch.json
+.claude/skills/frontend-design/SKILL.md
+.claude/skills/video-to-website/SKILL.md
