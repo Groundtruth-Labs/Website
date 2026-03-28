@@ -5,6 +5,7 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { PilotCTA } from "@/components/marketing/PilotCTA";
 import { Button } from "@/components/ui/button";
+import { TeamSection } from "@/components/about/TeamSection";
 
 export const metadata: Metadata = {
   title: "About",
@@ -163,6 +164,8 @@ export default function AboutPage() {
           </div>
         </section>
 
+
+        <TeamSection />
 
         {/* Contact */}
         <section className="py-20 bg-slate-50 border-b border-slate-200">
