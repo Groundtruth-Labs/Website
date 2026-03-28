@@ -6,14 +6,14 @@ const AVATAR_COLORS = ["#0e7490", "#0f172a", "#f59e0b", "#e2e8f0", "#f8fafc"];
 
 const members = [
   {
-    name: "Josh Zhang",
-    role: "Co-Founder",
-    bio: "Josh is a student at Punahou School in Hawaiʻi with a background in computer science and applied AI research. He has spent the past two years working with the University of Hawaiʻi AI Transportation Lab, where he became a first author on a paper on nighttime pedestrian behavior recognition submitted to the AI for Transportation journal and contributed to several of the lab's IEEE papers. In his free time, he builds apps and websites.",
-  },
-  {
-    name: "Tahan Bapna",
+    name: "Tahan B.",
     role: "Co-Founder",
     bio: "Tahan is a student at Punahou School with a focus on sustainability, data science, and environmental technology. He was part of Punahou's inaugural Sustainability Fellowship cohort, where he analyzed wave energy data using acoustic profiling instruments at the University of Hawaiʻi Wave Energy Lab. His science fair project on automated coral reef health evaluation using CNNs and hyperspectral analysis was recognized at the Hawaii State Science & Engineering Fair.",
+  },
+  {
+    name: "Josh Z.",
+    role: "Co-Founder",
+    bio: "Josh is a student at Punahou School in Hawaiʻi with a background in computer science and applied AI research. He has spent the past two years working with the University of Hawaiʻi AI Transportation Lab, where he became a first author on a paper on nighttime pedestrian behavior recognition submitted to the AI for Transportation journal and contributed to several of the lab's IEEE papers. In his free time, he builds apps and websites.",
   },
 ];
 
