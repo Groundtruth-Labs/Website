@@ -110,7 +110,7 @@ export function AgricultureContent() {
               Use cases
             </span>
             <h2 className="font-mono text-3xl font-bold text-slate-900 mt-3 mb-12">
-              Built for every operation type.
+              Works across every operation type.
             </h2>
           </motion.div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -159,7 +159,7 @@ export function AgricultureContent() {
                 What you receive
               </span>
               <h2 className="font-mono text-3xl font-bold text-slate-900 mt-3 mb-6">
-                Every agriculture engagement includes.
+                What every agriculture engagement includes.
               </h2>
               <ul className="space-y-3 mb-6">
                 {deliverables.map(({ label }, i) => (

@@ -157,7 +157,7 @@ export function ConstructionContent() {
                 What you receive
               </span>
               <h2 className="font-mono text-3xl font-bold text-slate-900 mt-3 mb-8">
-                Every construction engagement includes.
+                What every construction engagement includes.
               </h2>
               <ul className="space-y-3">
                 {deliverables.map(({ label }, i) => (

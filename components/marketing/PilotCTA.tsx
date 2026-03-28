@@ -42,7 +42,7 @@ export function PilotCTA() {
               Start with a pilot project.
             </h2>
             <p className="font-sans text-cyan-100 mt-4 text-lg leading-relaxed">
-              One flight, one full deliverable set, one written report. See
+              One flight, a full deliverable set, and a written report. See
               exactly what you&apos;re getting before you commit to anything
               ongoing.
             </p>

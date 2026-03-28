@@ -78,7 +78,7 @@ export function Deliverables() {
             What you get
           </span>
           <h2 className="font-mono text-4xl lg:text-5xl font-bold text-white leading-tight mb-10">
-            Every engagement<br />includes.
+            What you get<br />every time.
           </h2>
           <div className="flex flex-col gap-3.5">
             {CARDS.map((c, i) => (

@@ -5,7 +5,6 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { PilotCTA } from "@/components/marketing/PilotCTA";
 import { Button } from "@/components/ui/button";
-import { TeamSection } from "@/components/about/TeamSection";
 
 export const metadata: Metadata = {
   title: "About",
@@ -18,7 +17,7 @@ const values = [
     icon: Award,
     title: "Research rigor",
     description:
-      "Our analytical methods come from ISEF-recognized research work. Every deliverable is documented, reproducible, and backed by methodology.",
+      "Our analytical methods come from ISEF-recognized research work. Every deliverable is documented and reproducible. We can show our work.",
   },
   {
     icon: MapPin,
@@ -30,13 +29,13 @@ const values = [
     icon: Satellite,
     title: "Asset-light model",
     description:
-      "We don't own drones. We partner with licensed FAA operators to coordinate flights, then focus 100% on the analysis that creates value.",
+      "We don't own drones. We partner with licensed FAA operators to coordinate flights, then focus entirely on the analysis.",
   },
   {
     icon: Zap,
     title: "Fast turnaround",
     description:
-      "48 hours from flight to delivered report is our standard. Decisions can't wait, and your data shouldn't either.",
+      "48 hours from flight to delivered report is our standard, not the exception.",
   },
   {
     icon: Users,
@@ -82,9 +81,9 @@ export default function AboutPage() {
                   <p>
                     Groundtruth Labs grew out of years of research experience,
                     including work recognized at the International Science and
-                    Engineering Fair (ISEF). That foundation shaped how we think
-                    about data: carefully, methodically, and always in service
-                    of a real decision.
+                    Engineering Fair (ISEF). That foundation shapes how we
+                    work: every analysis is documented, and every finding ties
+                    back to an actual decision.
                   </p>
                   <p>
                     Hawaii&apos;s agriculture and construction sectors were an
@@ -164,7 +163,6 @@ export default function AboutPage() {
           </div>
         </section>
 
-        <TeamSection />
 
         {/* Contact */}
         <section className="py-20 bg-slate-50 border-b border-slate-200">
