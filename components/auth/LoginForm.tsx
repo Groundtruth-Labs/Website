@@ -44,7 +44,7 @@ export function LoginForm() {
       const isInvalidCredentials =
         authError.message.toLowerCase().includes("invalid login credentials") ||
         authError.message.toLowerCase().includes("invalid credentials");
-      setError(isInvalidCredentials ? "__no_account__" : authError.message);
+      setError(isInvalidCredentials ? "Incorrect email or password." : authError.message);
       setState("error");
     } else {
       router.push("/dashboard");
@@ -115,16 +115,7 @@ export function LoginForm() {
 
         {state === "error" && (
           <p className="font-sans text-xs text-red-600 bg-red-50 border border-red-100 rounded px-3 py-2">
-            {error === "__no_account__" ? (
-              <>
-                No account found with that email.{" "}
-                <Link href="/signup" className="underline hover:text-red-800">
-                  Create one here.
-                </Link>
-              </>
-            ) : (
-              error
-            )}
+            {error}
           </p>
         )}
 

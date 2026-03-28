@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import Link from "next/link";
 import { LoginForm } from "@/components/auth/LoginForm";
 
@@ -15,7 +16,9 @@ export default function LoginPage() {
       {/* Left panel — form */}
       <div className="flex-1 flex flex-col items-center justify-center px-8 py-12">
         <div className="w-full max-w-sm">
-          <LoginForm />
+          <Suspense>
+            <LoginForm />
+          </Suspense>
         </div>
         <p className="mt-8 font-sans text-xs text-slate-400">
           <Link href="/" className="hover:text-slate-600 transition-colors">

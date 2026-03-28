@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { SignupForm } from "@/components/auth/SignupForm";
 
 export const dynamic = "force-dynamic";
@@ -10,7 +11,9 @@ export default function SignupPage() {
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col items-center justify-center px-4 py-16">
       <div className="w-full max-w-md">
-        <SignupForm />
+        <Suspense>
+          <SignupForm />
+        </Suspense>
       </div>
     </div>
   );
