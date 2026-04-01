@@ -28,15 +28,15 @@ const values = [
   },
   {
     icon: Satellite,
-    title: "Asset-light model",
+    title: "Satellite-first model",
     description:
-      "We don't own drones. We partner with licensed FAA operators to coordinate flights, then focus entirely on the analysis.",
+      "Agriculture monitoring runs on Sentinel-2, free-forever satellite data that updates every 5 days. No flights, no FAA coordination, no scheduling delays.",
   },
   {
     icon: Zap,
-    title: "Fast turnaround",
+    title: "Automated delivery",
     description:
-      "48 hours from flight to delivered report is our standard, not the exception.",
+      "Agriculture reports land in your dashboard every 5-day satellite pass. Construction engagements deliver within 48 hours of capture.",
   },
   {
     icon: Users,
@@ -61,8 +61,8 @@ export default function AboutPage() {
               Analytics-first. Hawaii-based.
             </h1>
             <p className="font-sans text-xl text-slate-600 mt-6 max-w-2xl leading-relaxed">
-              The flight is the easy part. What matters is what you make of the
-              imagery afterward.
+              Satellite data updates every 5 days. Most farms still rely on
+              site walks. We close that gap.
             </p>
           </div>
         </section>
@@ -87,16 +87,17 @@ export default function AboutPage() {
                     back to an actual decision.
                   </p>
                   <p>
-                    Hawaii&apos;s agriculture and construction sectors were an
-                    obvious fit. Both deal with large, changing land areas where
-                    a ground-level view misses most of what&apos;s happening.
-                    Most operators were still making calls from site walks.
+                    Hawaii&apos;s agriculture sector was an obvious fit.
+                    Sentinel-2 satellites pass every 5 days at 10m resolution,
+                    covering entire fields automatically. Most farms were still
+                    relying on site walks. The gap between what was visible and
+                    what was knowable was enormous.
                   </p>
                   <p>
-                    We built Groundtruth Labs to close that gap: bring
-                    research-grade remote sensing to Hawaii&apos;s farms,
-                    orchards, and construction sites without the overhead of
-                    owning and operating drones.
+                    We built Groundtruth Labs to close that gap: automated
+                    satellite monitoring with research-grade analysis, delivered
+                    to Hawaii&apos;s farms and construction sites as a simple
+                    weekly report.
                   </p>
                 </div>
               </div>
@@ -104,29 +105,28 @@ export default function AboutPage() {
               <div className="space-y-4">
                 <div className="bg-slate-50 border border-slate-200 rounded p-6">
                   <p className="font-mono text-xs font-semibold text-slate-400 uppercase tracking-widest mb-2">
-                    The model
+                    Agriculture
                   </p>
                   <h3 className="font-mono text-base font-semibold text-slate-900 mb-3">
-                    Asset-light by design.
+                    Satellite, fully automated.
                   </h3>
                   <p className="font-sans text-sm text-slate-600 leading-relaxed">
-                    Licensed local drone operators handle all flight operations
-                    under FAA regulations. We coordinate scheduling, define
-                    capture requirements, and take over the moment imagery hits
-                    the processing pipeline.
+                    Sentinel-2 imagery comes in every 5 days. We run NDVI and
+                    NDWI analysis automatically, flag anomalies, and deliver
+                    a report without anyone scheduling a flight.
                   </p>
                 </div>
                 <div className="bg-cyan-700 rounded p-6">
                   <p className="font-mono text-xs font-semibold text-cyan-200 uppercase tracking-widest mb-2">
-                    The focus
+                    Construction
                   </p>
                   <h3 className="font-mono text-base font-semibold text-white mb-3">
-                    100% analytics.
+                    Drone partners, fast turnaround.
                   </h3>
                   <p className="font-sans text-sm text-cyan-100 leading-relaxed">
-                    We don&apos;t split attention between selling hardware,
-                    managing pilots, and delivering analysis. The analysis is
-                    the whole job.
+                    Licensed local drone operators handle site captures under
+                    FAA regulations. We take over at the processing pipeline
+                    and deliver within 48 hours.
                   </p>
                 </div>
               </div>

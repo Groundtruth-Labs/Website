@@ -6,9 +6,9 @@ import { Award, MapPin, Clock, Users, FlaskConical } from "lucide-react";
 const pills = [
   { icon: Award, label: "ISEF-recognized research background" },
   { icon: MapPin, label: "Hawaii-based team" },
-  { icon: Clock, label: "48hr standard turnaround" },
-  { icon: Users, label: "Licensed FAA drone partners" },
-  { icon: FlaskConical, label: "Pilot project available" },
+  { icon: Clock, label: "Weekly report delivery" },
+  { icon: FlaskConical, label: "Sentinel-2 free-forever data source" },
+  { icon: Users, label: "Pilot project available" },
 ];
 
 const blocks = [
@@ -21,8 +21,8 @@ const blocks = [
     body: "We know Hawaii's microclimates, terrain, and how farming operates here. Every report comes with context, not just numbers.",
   },
   {
-    title: "Asset-light model.",
-    body: "No drone ownership keeps overhead low. We focus entirely on the analysis, which is what you're actually paying for.",
+    title: "No flights needed.",
+    body: "Sentinel-2 data is free and updates every 5 days automatically. No scheduling, no weather delays, no FAA coordination. We focus on the analysis.",
   },
 ];
 

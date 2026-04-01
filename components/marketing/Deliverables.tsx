@@ -3,16 +3,16 @@
 import { useRef, useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { useUiStore } from "@/lib/store/uiStore";
-import { Map, AlertTriangle, Grid3X3, GitCompare, BarChart3, Download } from "lucide-react";
+import { Map, AlertTriangle, Droplets, GitCompare, BarChart3, Download } from "lucide-react";
 
 type Category = "agriculture" | "construction" | "both";
 
 const CARDS = [
-  { icon: Map, title: "NDVI Maps", description: "Normalized Difference Vegetation Index imagery that reveals crop health, stress zones, and variability across your fields.", badge: "Agriculture", category: "agriculture" as Category, spec: "GeoTIFF · 2 cm/px resolution" },
-  { icon: AlertTriangle, title: "Crop Stress Reports", description: "Pinpoints where intervention is needed, with severity ratings and specific next steps for each zone.", badge: "Agriculture", category: "agriculture" as Category, spec: "PDF + annotated map overlay" },
-  { icon: GitCompare, title: "Change Detection", description: "Flight-over-flight comparison that automatically highlights what moved, grew, or changed between visits.", badge: "Construction", category: "construction" as Category, spec: "Side-by-side overlay · diff export" },
-  { icon: BarChart3, title: "Site Progress Reports", description: "Structured progress documentation with visual milestones, volume estimates, and percent-complete breakdowns.", badge: "Construction", category: "construction" as Category, spec: "PDF · volume + area calculations" },
-  { icon: Grid3X3, title: "Orthomosaic Imagery", description: "High-resolution georeferenced aerial images stitched into a single accurate map of your site or field.", badge: "Both", category: "both" as Category, spec: "GeoTIFF · sub-5 cm accuracy" },
+  { icon: Map, title: "NDVI Maps", description: "Normalized Difference Vegetation Index imagery that reveals crop health, stress zones, and variability across your fields.", badge: "Agriculture", category: "agriculture" as Category, spec: "GeoTIFF · 10m Sentinel-2 resolution" },
+  { icon: Droplets, title: "NDWI Water Stress", description: "Normalized Difference Water Index maps that flag irrigation deficits and waterlogged zones before visible damage appears.", badge: "Agriculture", category: "agriculture" as Category, spec: "GeoTIFF · 10m Sentinel-2 resolution" },
+  { icon: AlertTriangle, title: "Crop Stress Reports", description: "GPS-pinned stress zones with severity ratings and a plain-English recommendation for each area that needs attention.", badge: "Agriculture", category: "agriculture" as Category, spec: "PDF + annotated map overlay" },
+  { icon: GitCompare, title: "Change Detection", description: "Pass-over-pass comparison that automatically highlights where vegetation health shifted since the previous 5-day cycle.", badge: "Agriculture", category: "agriculture" as Category, spec: "Weekly comparison · diff export" },
+  { icon: BarChart3, title: "Trend Charts", description: "Historical NDVI and NDWI trends for each field so you can see whether things are improving, declining, or holding steady.", badge: "Agriculture", category: "agriculture" as Category, spec: "PDF + CSV · full season history" },
   { icon: Download, title: "Dashboard Exports", description: "Every deliverable lives in your secure client dashboard, available for download the moment it's ready.", badge: "All clients", category: "both" as Category, spec: "GIS + PDF · immediate access" },
 ];
 

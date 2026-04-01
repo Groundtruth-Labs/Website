@@ -18,9 +18,9 @@ const FRAME_SPEED = 1.0;
 const PANELS = [
   {
     id: 1,
-    label: '01 / CAPTURE',
-    heading: 'Your fields from above',
-    body: 'Licensed FAA-compliant drone partners fly your site and capture high-resolution aerial imagery. Orchards, row crops, construction sites, solar arrays.',
+    label: '01 / OBSERVE',
+    heading: 'Every 5 days, automatically',
+    body: 'Sentinel-2 satellites pass over Hawaii every 5 days, capturing 10-meter multispectral imagery of your fields. No flights, no scheduling, no coordination.',
     enterAt: 0,
     peakStart: 0.05,
     peakEnd: 0.28,
@@ -29,8 +29,8 @@ const PANELS = [
   {
     id: 2,
     label: '02 / ANALYZE',
-    heading: 'NDVI intelligence layer',
-    body: 'Our algorithms parse every pixel, mapping vegetation health gradients, flagging stress zones, and surfacing anomalies invisible to the naked eye.',
+    heading: 'NDVI and water stress',
+    body: 'We calculate NDVI for crop health and NDWI for water stress on every pass, flag anomalies when values drop, and detect changes between cycles.',
     enterAt: 0.3,
     peakStart: 0.38,
     peakEnd: 0.6,
@@ -38,9 +38,9 @@ const PANELS = [
   },
   {
     id: 3,
-    label: '03 / DELIVER',
-    heading: 'Insights in 48 hours',
-    body: 'Annotated maps, field health scores, and prioritized recommendations. Ready before your next irrigation cycle or site walkthrough.',
+    label: '03 / REPORT',
+    heading: 'Weekly report, every cycle',
+    body: 'Annotated field maps, GPS-pinned stress zones, comparison to the previous week, and a plain-English recommendation ready every 5-day pass.',
     enterAt: 0.62,
     peakStart: 0.70,
     peakEnd: 0.92,
