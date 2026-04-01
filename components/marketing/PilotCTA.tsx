@@ -6,10 +6,10 @@ import { ArrowRight, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const includes = [
-  "One month of satellite monitoring for one field",
-  "NDVI and NDWI maps for every 5-day pass",
-  "Written analysis report with plain-English recommendations",
-  "Weekly PDF reports with trend charts",
+  "One flight with a licensed local partner",
+  "Full orthomosaic or NDVI deliverable set",
+  "Written analysis report with recommendations",
+  "48-hour turnaround from capture",
 ];
 
 export function PilotCTA() {
@@ -42,8 +42,9 @@ export function PilotCTA() {
               Start with a pilot project.
             </h2>
             <p className="font-sans text-cyan-100 mt-4 text-lg leading-relaxed">
-              One month, one field, full report set. See exactly what you&apos;re
-              getting before you commit to anything ongoing.
+              One flight, a full deliverable set, and a written report. See
+              exactly what you&apos;re getting before you commit to anything
+              ongoing.
             </p>
 
             {/* What's included */}
@@ -103,45 +104,46 @@ export function PilotCTA() {
                 <div className="border-b border-white/10 pb-4">
                   <div className="flex items-baseline justify-between mb-1">
                     <span className="font-mono text-sm font-semibold text-white">
-                      Pilot
+                      Pilot project
                     </span>
                     <span className="font-mono text-lg font-bold text-amber-400">
-                      $200 one-time
+                      Custom quote
                     </span>
                   </div>
                   <p className="font-sans text-xs text-cyan-200">
-                    One month, one field, full report set
+                    Scoped to your specific site and deliverable needs
                   </p>
                 </div>
                 <div className="border-b border-white/10 pb-4">
                   <div className="flex items-baseline justify-between mb-1">
                     <span className="font-mono text-sm font-semibold text-white">
-                      Monthly monitoring
+                      Recurring monitoring
                     </span>
-                    <span className="font-mono text-lg font-bold text-amber-400">
-                      $150/mo
+                    <span className="font-mono text-sm font-bold text-amber-400">
+                      Monthly / seasonal
                     </span>
                   </div>
                   <p className="font-sans text-xs text-cyan-200">
-                    Weekly reports, up to 3 fields
+                    Fixed schedule, consistent outputs, discounted vs. one-off
                   </p>
                 </div>
                 <div>
                   <div className="flex items-baseline justify-between mb-1">
                     <span className="font-mono text-sm font-semibold text-white">
-                      Seasonal
+                      One-time analysis
                     </span>
-                    <span className="font-mono text-lg font-bold text-amber-400">
-                      $400/season
+                    <span className="font-mono text-sm font-bold text-amber-400">
+                      Per-project
                     </span>
                   </div>
                   <p className="font-sans text-xs text-cyan-200">
-                    Full growing season, all passes included
+                    Single flight + deliverable package, no ongoing commitment
                   </p>
                 </div>
               </div>
               <p className="font-sans text-xs text-cyan-300 mt-6 pt-4 border-t border-white/10">
-                Start with a pilot. Low enough that saying yes is easy.
+                Every project starts with a discovery call. We scope it before
+                we invoice anything.
               </p>
             </div>
           </motion.div>

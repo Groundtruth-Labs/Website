@@ -67,7 +67,7 @@ export function ConstructionContent() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.45, delay: 0.07, ease: "easeOut" }}
           >
-            Full site visibility, every pass.
+            Full site visibility, every flight.
           </motion.h1>
           <motion.p
             className="font-sans text-xl text-slate-600 mt-6 max-w-2xl leading-relaxed"

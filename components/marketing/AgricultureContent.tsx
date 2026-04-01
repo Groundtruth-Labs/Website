@@ -20,30 +20,30 @@ const useCases = [
   {
     title: "Orchards & Tree Crops",
     description:
-      "Catch irrigation deficits and stress pressure in macadamia, coffee, and tropical fruit operations before they show up as yield losses. NDWI flags water stress before it's visible.",
-    tags: ["NDVI", "NDWI", "Stress detection"],
+      "Identify canopy gaps, irrigation inefficiencies, and disease pressure in macadamia, coffee, and tropical fruit operations before they become yield losses.",
+    tags: ["NDVI", "Canopy analysis", "Stress detection"],
   },
   {
     title: "Row Crops & Vegetables",
     description:
-      "Monitor growth variability and stress patterns across large vegetable and grain operations. Sentinel-2 covers your whole field every 5 days, not just the rows you walked.",
-    tags: ["Growth monitoring", "Change detection"],
+      "Monitor stand uniformity, growth variability, and nutrient status across large-scale vegetable and grain operations with per-field resolution.",
+    tags: ["Growth monitoring", "Uniformity mapping"],
   },
   {
     title: "Pasture & Grazing Land",
     description:
-      "Track vegetation recovery between grazing cycles. Trend charts show whether pastures are improving or declining, so rotation decisions have data behind them.",
-    tags: ["NDVI trends", "Rotation planning"],
+      "Track biomass availability and recovery after grazing events. Make smarter rotation decisions with quantified pasture data.",
+    tags: ["Biomass", "Rotation planning"],
   },
 ];
 
 const deliverables = [
-  { icon: TrendingUp, label: "NDVI maps at 10m Sentinel-2 resolution" },
-  { icon: Droplets, label: "NDWI water stress maps (irrigation deficit and waterlogging)" },
-  { icon: Eye, label: "Crop stress zones with GPS coordinates and severity ratings" },
-  { icon: BarChart3, label: "Week-over-week change detection, every 5-day cycle" },
-  { icon: Leaf, label: "Trend charts with full season history" },
-  { icon: ArrowRight, label: "Written recommendations report, plain English" },
+  { icon: TrendingUp, label: "NDVI maps at 2cm/px resolution" },
+  { icon: Eye, label: "Crop stress zone identification" },
+  { icon: Droplets, label: "Irrigation efficiency overlay" },
+  { icon: BarChart3, label: "Historical comparison (per-flight)" },
+  { icon: Leaf, label: "Canopy cover percentage" },
+  { icon: ArrowRight, label: "Written recommendations report" },
 ];
 
 export function AgricultureContent() {
@@ -77,9 +77,9 @@ export function AgricultureContent() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.45, delay: 0.14, ease: "easeOut" }}
           >
-            NDVI and NDWI monitoring for Hawaii&apos;s orchards, row crops,
-            and pasture, updated automatically every 5 days from Sentinel-2
-            satellite data. No flights, no scheduling.
+            NDVI mapping, crop stress detection, and growth monitoring for
+            Hawaii&apos;s orchards, row crops, and pasture, delivered within
+            48 hours of every flight.
           </motion.p>
           <motion.div
             className="flex gap-4 mt-10"
@@ -177,9 +177,8 @@ export function AgricultureContent() {
                 ))}
               </ul>
               <p className="font-sans text-sm text-slate-500 leading-relaxed">
-                Every 5-day satellite pass produces a stats report like the one
-                on the right, alongside GeoTIFF maps and a written
-                recommendations PDF. Delivered to your dashboard automatically.
+                Every flight produces a stats report like the one on the right,
+                alongside GeoTIFF maps and a written recommendations PDF.
               </p>
             </motion.div>
             <motion.div

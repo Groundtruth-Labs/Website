@@ -13,8 +13,8 @@ const HeroCanvas = dynamic(() => import("@/components/canvas/HeroCanvas"), {
 });
 
 const stats = [
-  { icon: Clock, value: "5-day", label: "Data refresh" },
-  { icon: Layers, value: "NDVI + NDWI", label: "Core indices" },
+  { icon: Clock, value: "48hr", label: "Turnaround" },
+  { icon: Layers, value: "NDVI + Ortho", label: "Core outputs" },
   { icon: MapPin, value: "Hawaii", label: "Based locally" },
 ];
 
@@ -73,9 +73,9 @@ export function Hero() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="font-mono text-5xl md:text-6xl lg:text-7xl font-bold text-slate-900 leading-[1.05] tracking-tight"
           >
-            Turn satellite data into{" "}
+            Turn aerial data into{" "}
             <span className="text-cyan-700">decisions</span>{" "}
-            you can act on.
+            you can use.
           </motion.h1>
 
           {/* Subheadline */}
@@ -86,8 +86,8 @@ export function Hero() {
             transition={{ duration: 0.6, delay: 0.32 }}
             className="font-sans text-xl text-slate-600 mt-6 max-w-2xl leading-relaxed"
           >
-            Automated crop health monitoring for Hawaii farms using Sentinel-2
-            satellite data, updated every 5 days. You get the decision. We
+            We run NDVI maps, orthomosaics, and site progress reports for farms
+            and construction sites across Hawaii. You get the analysis. We
             handle everything else.
           </motion.p>
 

@@ -24,14 +24,14 @@ const services = [
     iconBg: "bg-green-50",
     title: "Agriculture Analytics",
     description:
-      "Spot crop stress before it costs you. Sentinel-2 satellite data updated every 5 days maps what you can't see from the ground.",
+      "Spot crop stress before it costs you. From orchards to row crops, we map what you can't see from the ground.",
     badge: "Most popular",
     badgeVariant: "success" as const,
     items: [
       { icon: TrendingUp, label: "NDVI crop stress mapping" },
-      { icon: Droplets, label: "NDWI water stress detection" },
-      { icon: Eye, label: "Week-over-week change detection" },
-      { icon: BarChart3, label: "Trend charts and anomaly alerts" },
+      { icon: Eye, label: "Growth stage monitoring" },
+      { icon: Droplets, label: "Irrigation efficiency analysis" },
+      { icon: BarChart3, label: "Yield prediction support" },
     ],
     href: "/services/agriculture",
   },
@@ -75,7 +75,7 @@ export function Services() {
             Analytics built for your industry.
           </h2>
           <p className="font-sans text-slate-600 mt-4 max-w-xl text-lg">
-            Satellite monitoring that tells you what to do next, not just what happened.
+            Two industries where aerial data changes what you decide.
           </p>
         </motion.div>
 
@@ -149,7 +149,7 @@ export function Services() {
           transition={{ duration: 0.5, delay: 0.3 }}
           className="font-sans text-sm text-slate-400 mt-8 text-center"
         >
-          Also serving solar farms and ranches.{" "}
+          Also serving solar farms and golf courses.{" "}
           <Link href="/about" className="text-slate-500 hover:text-slate-700 underline underline-offset-2">
             Learn about our model →
           </Link>

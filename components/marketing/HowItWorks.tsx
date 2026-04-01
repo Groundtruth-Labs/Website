@@ -49,7 +49,7 @@ const nodes: Node[] = [
   {
     id: "3",
     position: { x: 390, y: 0 },
-    data: { label: "Copernicus / Sentinel-2" },
+    data: { label: "Licensed Drone Partner" },
     style: {
       background: "#ffffff",
       border: "1px solid #e2e8f0",
@@ -162,9 +162,9 @@ export function HowItWorks() {
             How it works.
           </h2>
           <p className="font-sans text-slate-600 mt-4 max-w-xl text-lg">
-            You tell us your fields. We connect to Sentinel-2 satellite data,
-            run the analysis automatically every 5 days, and deliver a report
-            you can act on.
+            You tell us what you need. We coordinate the flight, process the
+            imagery, and send you a report, typically within 48 hours of
+            capture.
           </p>
         </motion.div>
 
@@ -203,17 +203,17 @@ export function HowItWorks() {
             {
               step: "01",
               title: "Discovery call",
-              desc: "We scope your fields, set up your Sentinel-2 data pipeline, and define your monitoring boundaries. No flight scheduling.",
+              desc: "We scope your project, identify what data you need, and schedule a flight with a licensed local partner.",
             },
             {
               step: "02",
-              title: "Automated processing",
-              desc: "Every 5 days, new satellite imagery runs through NDVI, NDWI, change detection, and anomaly flagging automatically.",
+              title: "Capture + analysis",
+              desc: "The drone goes up. Raw imagery gets processed into orthomosaics, NDVI maps, and change detection outputs.",
             },
             {
               step: "03",
-              title: "Report delivered",
-              desc: "A PDF report with annotated field maps, stress zone coordinates, week-over-week comparison, and a plain-English recommendation.",
+              title: "Insights delivered",
+              desc: "Your report and dashboard are ready within 48 hours. Clear findings, specific next steps.",
             },
           ].map(({ step, title, desc }, i) => (
             <motion.div
