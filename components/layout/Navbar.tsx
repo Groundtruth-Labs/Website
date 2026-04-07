@@ -10,11 +10,6 @@ import { motion, AnimatePresence } from "motion/react";
 import { ProfileMenu } from "@/components/layout/ProfileMenu";
 import { useUiStore } from "@/lib/store/uiStore";
 
-const FULL = "Groundtruth Labs";
-const ALL_CHARS = Array.from(FULL).map((char, i) => ({ char, index: i }));
-// G = index 0, L = index 12 — these persist across both states as layout anchors
-const COLLAPSED = [ALL_CHARS[0], ALL_CHARS[12]];
-
 const navLinks = [
   { href: "/services/agriculture", label: "Agriculture" },
   { href: "/services/construction", label: "Construction" },
@@ -31,8 +26,6 @@ export function Navbar() {
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
-  const chars = scrolled ? COLLAPSED : ALL_CHARS;
 
   return (
     <header
@@ -56,38 +49,36 @@ export function Navbar() {
             alt="Groundtruth Labs logo"
             width={28}
             height={28}
+            priority
             className="rounded flex-shrink-0"
           />
-          {/* Single persistent char list — G (key=0) and L (key=12) survive both states
-              and layout-animate toward each other as middle chars fade out via popLayout */}
-          <motion.span
-            className="font-mono font-semibold text-slate-900 tracking-tight text-sm inline-flex relative"
-          >
-            <AnimatePresence mode="popLayout" initial={false}>
-              {chars.map(({ char, index }) => (
+          <span className="relative font-mono font-semibold text-slate-900 tracking-tight text-sm">
+            <AnimatePresence initial={false} mode="wait">
+              {scrolled ? (
                 <motion.span
-                  key={index}
-                  layout="position"
+                  key="short"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  exit={{ opacity: 0, transition: { duration: 0.15, ease: "easeOut" } }}
-                  transition={{
-                    layout: { duration: 0.3, ease: "easeOut" },
-                    opacity: {
-                      duration: 0.2,
-                      ease: "easeOut",
-                      // On expand: wait for G/L to slide back before fading chars in.
-                      // Stagger left-to-right so letters fill in from the anchors outward.
-                      delay: scrolled ? 0 : 0.25 + index * 0.008,
-                    },
-                  }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.15 }}
                   className="inline-block"
                 >
-                  {char === " " ? "\u00A0" : char}
+                  GL
                 </motion.span>
-              ))}
+              ) : (
+                <motion.span
+                  key="full"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.15 }}
+                  className="inline-block"
+                >
+                  Groundtruth Labs
+                </motion.span>
+              )}
             </AnimatePresence>
-          </motion.span>
+          </span>
         </Link>
 
         {/* Desktop nav — center */}

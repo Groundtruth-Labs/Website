@@ -103,7 +103,7 @@ export function Hero() {
               <Link href="/book">Book discovery call</Link>
             </Button>
             <Button size="lg" variant="outline" asChild>
-              <Link href="/about" className="inline-flex items-center gap-2">
+              <Link href="/book" className="inline-flex items-center gap-2">
                 Request pilot project
                 <ArrowRight className="w-4 h-4" />
               </Link>

@@ -26,6 +26,7 @@ export function Footer() {
                 alt="Groundtruth Labs logo"
                 width={28}
                 height={28}
+                loading="eager"
                 className="rounded flex-shrink-0"
               />
               <span className="font-mono font-semibold text-slate-900 text-sm">

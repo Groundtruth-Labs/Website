@@ -140,6 +140,11 @@ const edges: Edge[] = [
   },
 ];
 
+// Stable references — must live outside the component to prevent ReactFlow
+// from logging a spurious nodeTypes/edgeTypes recreation warning on each render.
+const nodeTypes = {};
+const edgeTypes = {};
+
 export function HowItWorks() {
   const onInit = useCallback(() => {}, []);
 
@@ -176,6 +181,8 @@ export function HowItWorks() {
           <ReactFlow
             nodes={nodes}
             edges={edges}
+            nodeTypes={nodeTypes}
+            edgeTypes={edgeTypes}
             onInit={onInit}
             fitView
             fitViewOptions={{ padding: 0.3 }}
