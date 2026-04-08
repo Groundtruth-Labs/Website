@@ -3,12 +3,18 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "motion/react";
 import { ProfileMenu } from "@/components/layout/ProfileMenu";
 import { useUiStore } from "@/lib/store/uiStore";
+
+const FULL = "Groundtruth Labs";
+const ALL_CHARS = Array.from(FULL).map((char, i) => ({ char, index: i }));
+// G = index 0, L = index 12 — these persist across both states as layout anchors
+const COLLAPSED = [ALL_CHARS[0], ALL_CHARS[12]];
 
 const navLinks = [
   { href: "/services/agriculture", label: "Agriculture" },
@@ -20,6 +26,10 @@ export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const droneSectionActive = useUiStore((s) => s.droneSectionActive);
+  const pathname = usePathname();
+  const alwaysOpaque = pathname.startsWith("/services/");
+
+  const chars = scrolled ? COLLAPSED : ALL_CHARS;
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 60);
@@ -31,7 +41,7 @@ export function Navbar() {
     <header
       className={cn(
         "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-        scrolled
+        scrolled || alwaysOpaque
           ? "bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-sm"
           : "bg-transparent"
       )}
@@ -52,33 +62,34 @@ export function Navbar() {
             priority
             className="rounded flex-shrink-0"
           />
-          <span className="relative font-mono font-semibold text-slate-900 tracking-tight text-sm">
-            <AnimatePresence initial={false} mode="wait">
-              {scrolled ? (
+          {/* Single persistent char list — G (key=0) and L (key=12) survive both states
+              and layout-animate toward each other as middle chars fade out via popLayout */}
+          <motion.span className="font-mono font-semibold text-slate-900 tracking-tight text-sm inline-flex relative">
+            <AnimatePresence mode="popLayout" initial={false}>
+              {chars.map(({ char, index }) => (
                 <motion.span
-                  key="short"
+                  key={index}
+                  layout="position"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.15 }}
+                  exit={{ opacity: 0, transition: { duration: 0.15, ease: "easeOut" } }}
+                  transition={{
+                    layout: { duration: 0.3, ease: "easeOut" },
+                    opacity: {
+                      duration: 0.2,
+                      ease: "easeOut",
+                      // On expand: wait for G/L to slide back before fading chars in,
+                      // staggered left-to-right so letters fill in from the anchors outward.
+                      delay: scrolled ? 0 : 0.25 + index * 0.008,
+                    },
+                  }}
                   className="inline-block"
                 >
-                  GL
+                  {char === " " ? "\u00A0" : char}
                 </motion.span>
-              ) : (
-                <motion.span
-                  key="full"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.15 }}
-                  className="inline-block"
-                >
-                  Groundtruth Labs
-                </motion.span>
-              )}
+              ))}
             </AnimatePresence>
-          </span>
+          </motion.span>
         </Link>
 
         {/* Desktop nav — center */}

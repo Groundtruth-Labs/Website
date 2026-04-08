@@ -13,7 +13,7 @@ const members = [
   {
     name: "Josh Z.",
     role: "Co-Founder",
-    bio: "Josh is a student at Punahou School in Hawaiʻi with a background in computer science and applied AI research. He has spent the past two years working with the University of Hawaiʻi AI Transportation Lab, where he became a first author on a paper on nighttime pedestrian behavior recognition submitted to the AI for Transportation journal and contributed to several of the lab's IEEE papers. In his free time, he builds apps and websites.",
+    bio: "Josh is a student at Punahou School in Hawaiʻi with a background in computer science and applied AI research. He has spent the past two years working with the University of Hawaiʻi AI Transportation Lab, where he heavily contributed to research on nighttime pedestrian behavior recognition and LiDAR-based sensing. In his free time, he builds apps and websites.",
   },
 ];
 

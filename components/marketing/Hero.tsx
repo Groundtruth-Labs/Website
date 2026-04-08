@@ -3,7 +3,7 @@
 import { useRef } from "react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
-import { ArrowRight, Clock, Layers, MapPin } from "lucide-react";
+import { ArrowRight, Layers, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion, useScroll, useTransform } from "motion/react";
 
@@ -13,7 +13,6 @@ const HeroCanvas = dynamic(() => import("@/components/canvas/HeroCanvas"), {
 });
 
 const stats = [
-  { icon: Clock, value: "48hr", label: "Turnaround" },
   { icon: Layers, value: "NDVI + Ortho", label: "Core outputs" },
   { icon: MapPin, value: "Hawaii", label: "Based locally" },
 ];

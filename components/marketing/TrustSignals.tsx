@@ -1,12 +1,11 @@
 "use client";
 
 import { motion } from "motion/react";
-import { Award, MapPin, Clock, Users, FlaskConical } from "lucide-react";
+import { Award, MapPin, Users, FlaskConical } from "lucide-react";
 
 const pills = [
-  { icon: Award, label: "ISEF-recognized research background" },
+  { icon: Award, label: "Science research awarded at ISEF (International Science and Engineering Fair)" },
   { icon: MapPin, label: "Hawaii-based team" },
-  { icon: Clock, label: "48hr standard turnaround" },
   { icon: Users, label: "Licensed FAA drone partners" },
   { icon: FlaskConical, label: "Pilot project available" },
 ];
@@ -14,7 +13,7 @@ const pills = [
 const blocks = [
   {
     title: "Research-grade rigor.",
-    body: "Our methods come from ISEF-recognized research work. Everything we deliver is reproducible, documented, and defensible, not a black box.",
+    body: "Our methods come from science research recognized at the International Science and Engineering Fair (ISEF), the world's largest pre-college science competition. Everything we deliver is reproducible, documented, and defensible, not a black box.",
   },
   {
     title: "Local expertise.",
