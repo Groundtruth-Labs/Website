@@ -8,12 +8,12 @@ const members = [
   {
     name: "Tahan B.",
     role: "Co-Founder",
-    bio: "Tahan is a student at Punahou School with a focus on sustainability, data science, and environmental technology. He was part of Punahou's inaugural Sustainability Fellowship cohort, where he analyzed wave energy data using acoustic profiling instruments at the University of Hawaiʻi Wave Energy Lab. His science fair project on automated coral reef health evaluation using CNNs and hyperspectral analysis was recognized at the Hawaii State Science & Engineering Fair.",
+    bio: "Tahan is a student at Punahou School with a focus on sustainability, data science, and environmental technology. He was part of Punahou's inaugural Sustainability Fellowship cohort, where he analyzed wave energy data using acoustic profiling instruments at the University of Hawaiʻi Wave Energy Lab.",
   },
   {
     name: "Josh Z.",
     role: "Co-Founder",
-    bio: "Josh is a student at Punahou School in Hawaiʻi with a background in computer science and applied AI research. He has spent the past two years working with the University of Hawaiʻi AI Transportation Lab, where he heavily contributed to research on nighttime pedestrian behavior recognition and LiDAR-based sensing. In his free time, he builds apps and websites.",
+    bio: "Josh is a student at Punahou School in Hawaiʻi with a background in computer science and applied AI research. He has spent the past two years working with the University of Hawaiʻi AI Transportation Lab, where he heavily contributed to research on nighttime pedestrian behavior recognition and LiDAR-based sensing.",
   },
 ];
 

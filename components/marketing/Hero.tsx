@@ -3,7 +3,7 @@
 import { useRef } from "react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
-import { ArrowRight, Layers, MapPin } from "lucide-react";
+import { Layers, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion, useScroll, useTransform } from "motion/react";
 
@@ -100,12 +100,6 @@ export function Hero() {
           >
             <Button size="lg" asChild>
               <Link href="/book">Book discovery call</Link>
-            </Button>
-            <Button size="lg" variant="outline" asChild>
-              <Link href="/book" className="inline-flex items-center gap-2">
-                Request pilot project
-                <ArrowRight className="w-4 h-4" />
-              </Link>
             </Button>
           </motion.div>
 
