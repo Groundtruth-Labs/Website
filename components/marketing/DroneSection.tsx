@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useEffect, useCallback } from 'react';
+import { useRef, useEffect, useCallback, useState } from 'react';
 import {
   useScroll,
   useTransform,
@@ -47,6 +47,7 @@ export function DroneSection() {
   const bgColorRef       = useRef<string>('#e2e4e1');
   const rafRef           = useRef<number | null>(null);
   const stickyRef        = useRef<HTMLDivElement>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -122,6 +123,7 @@ export function DroneSection() {
     Promise.all(Array.from({ length: 10 }, (_, i) => load(i))).then(() => {
       sampleBgFromImage(frames[0]);
       drawFrame(0);
+      setIsLoading(false); // Ready to show canvas
       for (let i = 10; i < FRAME_COUNT; i++) load(i);
     });
   }, [drawFrame, sampleBgFromImage]);
@@ -212,6 +214,16 @@ export function DroneSection() {
       style={{ height: '750vh' }}
       className="relative"
     >
+      {/* ── Loading screen ────────────────────────────────────────────────── */}
+      {isLoading ? (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-white pointer-events-none">
+          <div className="text-center">
+            <div className="w-12 h-12 border-2 border-slate-200 border-t-cyan-700 rounded-full animate-spin mx-auto mb-4" />
+            <p className="font-sans text-sm text-slate-600">Loading</p>
+          </div>
+        </div>
+      ) : null}
+
       <div ref={stickyRef} className="sticky top-0 h-screen overflow-hidden bg-white">
         <motion.div style={{ opacity: sectionOpacity }} className="absolute inset-0">
 

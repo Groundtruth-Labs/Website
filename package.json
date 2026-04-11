@@ -31,6 +31,7 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "reactflow": "^11.11.4",
+    "resend": "^6.10.0",
     "tailwind-merge": "^2.6.0",
     "three": "^0.172.0",
     "zustand": "^5.0.3"

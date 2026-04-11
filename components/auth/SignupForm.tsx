@@ -8,10 +8,9 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { createClient } from "@/lib/supabase/client";
-import { useRouter } from "next/navigation";
+import { registerUser } from "@/app/auth/actions";
 
-type State = "idle" | "loading" | "error" | "success";
+type State = "idle" | "loading" | "error" | "verify_email";
 
 export function SignupForm() {
   const searchParams = useSearchParams();
@@ -22,7 +21,6 @@ export function SignupForm() {
   const [company, setCompany] = useState("");
   const [state, setState] = useState<State>("idle");
   const [error, setError] = useState("");
-  const router = useRouter();
 
   useEffect(() => {
     const emailParam = searchParams.get("email");
@@ -48,41 +46,38 @@ export function SignupForm() {
       return;
     }
 
-    const supabase = createClient();
-    const { error: signupError } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        data: {
-          company_name: company || undefined,
-        },
-      },
-    });
-
-    if (signupError) {
-      setError(signupError.message);
+    try {
+      await registerUser({
+        email,
+        password,
+        company,
+      });
+      setState("verify_email");
+    } catch (signupError) {
+      const message =
+        signupError instanceof Error ? signupError.message : "Failed to create account";
+      setError(message);
       setState("error");
-    } else {
-      setState("success");
-      setTimeout(() => {
-        router.push("/onboarding");
-      }, 1500);
     }
   }
 
-  if (state === "success") {
+  if (state === "verify_email") {
     return (
       <div className="text-center py-8">
-        <div className="w-14 h-14 bg-green-50 border border-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-          <svg className="w-7 h-7 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+        <div className="w-14 h-14 bg-cyan-50 border border-cyan-100 rounded-full flex items-center justify-center mx-auto mb-4">
+          <svg className="w-7 h-7 text-cyan-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
           </svg>
         </div>
         <h2 className="font-mono text-xl font-semibold text-slate-900 mb-2">
-          Account created
+          Verify your email
         </h2>
-        <p className="font-sans text-sm text-slate-600">
-          Welcome! Redirecting to your dashboard...
+        <p className="font-sans text-sm text-slate-600 mb-4">
+          We've sent a verification link to<br />
+          <span className="font-semibold">{email}</span>
+        </p>
+        <p className="font-sans text-xs text-slate-500">
+          Click the link in your email to confirm your account and get started.
         </p>
       </div>
     );

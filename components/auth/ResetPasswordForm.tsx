@@ -7,7 +7,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { createClient } from "@/lib/supabase/client";
+import { requestPasswordReset } from "@/app/auth/actions";
 
 type State = "idle" | "loading" | "error" | "success";
 
@@ -21,20 +21,13 @@ export function ResetPasswordForm() {
     setState("loading");
     setError("");
 
-    const supabase = createClient();
-    const origin = window.location.origin;
-    const { error: resetError } = await supabase.auth.resetPasswordForEmail(
-      email,
-      {
-        redirectTo: `${origin}/auth/callback?next=/update-password`,
-      }
-    );
-
-    if (resetError) {
-      setError(resetError.message);
-      setState("error");
-    } else {
+    try {
+      await requestPasswordReset(email);
       setState("success");
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "Failed to send reset email";
+      setError(message);
+      setState("error");
     }
   }
 
