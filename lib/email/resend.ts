@@ -5,135 +5,152 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 const FROM_EMAIL = 'noreply@groundtruthlabs.org';
 const COMPANY_NAME = 'Groundtruth Labs';
 
-// HTML email templates
+// ─── Shared layout pieces ───────────────────────────────────────────────────
+
+function emailWrapper(content: string) {
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+</head>
+<body style="margin:0;padding:0;background:#f1f5f9;font-family:'Courier New',Courier,monospace;">
+  <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#f1f5f9;padding:40px 20px;">
+    <tr>
+      <td align="center">
+        <table width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:580px;">
+
+          <!-- Header -->
+          <tr>
+            <td style="padding-bottom:28px;text-align:left;">
+              <span style="font-family:'Courier New',Courier,monospace;font-size:14px;font-weight:700;color:#0f172a;letter-spacing:-0.02em;">${COMPANY_NAME}</span>
+            </td>
+          </tr>
+
+          <!-- Card -->
+          <tr>
+            <td style="background:#ffffff;border:1px solid #e2e8f0;border-radius:4px;padding:40px;">
+              ${content}
+            </td>
+          </tr>
+
+          <!-- Footer -->
+          <tr>
+            <td style="padding:28px 0 0 0;">
+              <table width="100%" cellpadding="0" cellspacing="0" border="0" style="border-top:1px solid #e2e8f0;padding-top:20px;">
+                <tr>
+                  <td style="font-family:Arial,sans-serif;font-size:11px;color:#94a3b8;line-height:1.6;">
+                    <p style="margin:0;color:#cbd5e1;">
+                      &copy; ${new Date().getFullYear()} ${COMPANY_NAME} &middot; Hawaii &middot; Remote Sensing Analytics
+                    </p>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>`;
+}
+
+function ctaButton(href: string, label: string) {
+  return `
+    <table cellpadding="0" cellspacing="0" border="0" style="margin:32px 0;">
+      <tr>
+        <td style="background:#0e7490;border-radius:3px;">
+          <a href="${href}"
+             style="display:inline-block;padding:13px 28px;font-family:'Courier New',Courier,monospace;font-size:13px;font-weight:700;color:#ffffff;text-decoration:none;letter-spacing:0.03em;">
+            ${label}
+          </a>
+        </td>
+      </tr>
+    </table>`;
+}
+
+
+function eyebrow(label: string) {
+  return `<p style="font-family:'Courier New',Courier,monospace;font-size:10px;font-weight:700;color:#0e7490;letter-spacing:0.14em;text-transform:uppercase;margin:0 0 16px 0;">${label}</p>`;
+}
+
+function divider() {
+  return `<div style="height:1px;background:#e2e8f0;margin:28px 0;"></div>`;
+}
+
+// ─── Templates ──────────────────────────────────────────────────────────────
+
 const emailTemplates = {
   verification: (verifyLink: string, email: string) => ({
-    subject: 'Verify your Groundtruth Labs email',
-    html: `
-      <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
-        <div style="text-align: center; margin-bottom: 30px;">
-          <h1 style="color: #0f172a; margin: 0; font-size: 24px;">${COMPANY_NAME}</h1>
-          <p style="color: #475569; margin: 5px 0 0 0; font-size: 14px;">Remote Sensing Analytics</p>
-        </div>
-
-        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 4px; padding: 30px; margin-bottom: 20px;">
-          <h2 style="color: #0f172a; margin: 0 0 15px 0; font-size: 18px;">Verify your email address</h2>
-          <p style="color: #475569; margin: 0 0 20px 0; font-size: 14px; line-height: 1.6;">
-            Welcome to ${COMPANY_NAME}! Click the button below to verify your email address and access your account.
-          </p>
-
-          <div style="text-align: center; margin: 30px 0;">
-            <a href="${verifyLink}" style="background: #0e7490; color: white; padding: 12px 24px; text-decoration: none; border-radius: 4px; display: inline-block; font-weight: 500;">
-              Verify Email
-            </a>
-          </div>
-
-          <p style="color: #94a3b8; margin: 20px 0 0 0; font-size: 12px;">
-            Or copy and paste this link in your browser:<br />
-            <code style="background: white; padding: 8px 12px; border-radius: 4px; display: inline-block; word-break: break-all; margin-top: 5px; color: #0f172a;">
-              ${verifyLink}
-            </code>
-          </p>
-        </div>
-
-        <div style="border-top: 1px solid #e2e8f0; padding-top: 20px; color: #94a3b8; font-size: 12px; text-align: center;">
-          <p style="margin: 0 0 10px 0;">
-            Questions? Contact us at support@groundtruthlabs.org
-          </p>
-          <p style="margin: 0;">
-            © ${new Date().getFullYear()} ${COMPANY_NAME}. All rights reserved.
-          </p>
-        </div>
-      </div>
-    `,
+    subject: `Verify your email — ${COMPANY_NAME}`,
+    html: emailWrapper(`
+      ${eyebrow('Email verification')}
+      <h1 style="font-family:'Courier New',Courier,monospace;font-size:22px;font-weight:700;color:#0f172a;margin:0 0 14px 0;line-height:1.2;">
+        Confirm your account
+      </h1>
+      <p style="font-family:Arial,sans-serif;font-size:14px;color:#475569;margin:0;line-height:1.7;">
+        You signed up with <strong style="color:#0f172a;">${email}</strong>. Click the button below to verify your address and get access to your dashboard.
+      </p>
+      ${ctaButton(verifyLink, 'Verify Email →')}
+      ${divider()}
+      <p style="font-family:Arial,sans-serif;font-size:13px;color:#64748b;margin:0;line-height:1.7;">
+        Once verified, you'll complete a short onboarding and land in your project dashboard. The whole thing takes under two minutes.
+      </p>
+    `),
   }),
 
   passwordReset: (resetLink: string) => ({
-    subject: 'Reset your Groundtruth Labs password',
-    html: `
-      <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
-        <div style="text-align: center; margin-bottom: 30px;">
-          <h1 style="color: #0f172a; margin: 0; font-size: 24px;">${COMPANY_NAME}</h1>
-          <p style="color: #475569; margin: 5px 0 0 0; font-size: 14px;">Remote Sensing Analytics</p>
-        </div>
-
-        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 4px; padding: 30px; margin-bottom: 20px;">
-          <h2 style="color: #0f172a; margin: 0 0 15px 0; font-size: 18px;">Reset your password</h2>
-          <p style="color: #475569; margin: 0 0 20px 0; font-size: 14px; line-height: 1.6;">
-            We received a request to reset your password. Click the button below to create a new password.
-          </p>
-
-          <div style="text-align: center; margin: 30px 0;">
-            <a href="${resetLink}" style="background: #0e7490; color: white; padding: 12px 24px; text-decoration: none; border-radius: 4px; display: inline-block; font-weight: 500;">
-              Reset Password
-            </a>
-          </div>
-
-          <p style="color: #94a3b8; margin: 20px 0 0 0; font-size: 12px;">
-            Or copy and paste this link in your browser:<br />
-            <code style="background: white; padding: 8px 12px; border-radius: 4px; display: inline-block; word-break: break-all; margin-top: 5px; color: #0f172a;">
-              ${resetLink}
-            </code>
-          </p>
-
-          <div style="background: #fff7ed; border-left: 4px solid #f59e0b; padding: 12px; margin-top: 20px; border-radius: 4px;">
-            <p style="color: #92400e; margin: 0; font-size: 12px;">
-              <strong>Didn't request this?</strong> Ignore this email or contact support if you didn't initiate a password reset.
+    subject: `Reset your password — ${COMPANY_NAME}`,
+    html: emailWrapper(`
+      ${eyebrow('Password reset')}
+      <h1 style="font-family:'Courier New',Courier,monospace;font-size:22px;font-weight:700;color:#0f172a;margin:0 0 14px 0;line-height:1.2;">
+        Set a new password
+      </h1>
+      <p style="font-family:Arial,sans-serif;font-size:14px;color:#475569;margin:0;line-height:1.7;">
+        We got a request to reset your ${COMPANY_NAME} password. Click the button below to choose a new one.
+      </p>
+      ${ctaButton(resetLink, 'Reset Password →')}
+      ${divider()}
+      <table cellpadding="0" cellspacing="0" border="0" style="width:100%;">
+        <tr>
+          <td style="background:#fff7ed;border-left:3px solid #f59e0b;border-radius:2px;padding:12px 16px;">
+            <p style="font-family:Arial,sans-serif;font-size:12px;color:#92400e;margin:0;line-height:1.6;">
+              <strong>Didn't request this?</strong> You can ignore this email safely. Your password won't change.
             </p>
-          </div>
-        </div>
-
-        <div style="border-top: 1px solid #e2e8f0; padding-top: 20px; color: #94a3b8; font-size: 12px; text-align: center;">
-          <p style="margin: 0 0 10px 0;">
-            Questions? Contact us at support@groundtruthlabs.org
-          </p>
-          <p style="margin: 0;">
-            © ${new Date().getFullYear()} ${COMPANY_NAME}. All rights reserved.
-          </p>
-        </div>
-      </div>
-    `,
+          </td>
+        </tr>
+      </table>
+    `),
   }),
 
   invite: (inviteLink: string, inviterName?: string) => ({
-    subject: `You're invited to join ${COMPANY_NAME}`,
-    html: `
-      <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
-        <div style="text-align: center; margin-bottom: 30px;">
-          <h1 style="color: #0f172a; margin: 0; font-size: 24px;">${COMPANY_NAME}</h1>
-          <p style="color: #475569; margin: 5px 0 0 0; font-size: 14px;">Remote Sensing Analytics</p>
-        </div>
-
-        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 4px; padding: 30px; margin-bottom: 20px;">
-          <h2 style="color: #0f172a; margin: 0 0 15px 0; font-size: 18px;">You're invited!</h2>
-          <p style="color: #475569; margin: 0 0 20px 0; font-size: 14px; line-height: 1.6;">
-            ${inviterName ? `${inviterName} from ` : ''}${COMPANY_NAME} has invited you to join their account. Click the button below to accept the invitation and get started.
-          </p>
-
-          <div style="text-align: center; margin: 30px 0;">
-            <a href="${inviteLink}" style="background: #0e7490; color: white; padding: 12px 24px; text-decoration: none; border-radius: 4px; display: inline-block; font-weight: 500;">
-              Accept Invitation
-            </a>
-          </div>
-
-          <p style="color: #94a3b8; margin: 20px 0 0 0; font-size: 12px;">
-            Or copy and paste this link in your browser:<br />
-            <code style="background: white; padding: 8px 12px; border-radius: 4px; display: inline-block; word-break: break-all; margin-top: 5px; color: #0f172a;">
-              ${inviteLink}
-            </code>
-          </p>
-        </div>
-
-        <div style="border-top: 1px solid #e2e8f0; padding-top: 20px; color: #94a3b8; font-size: 12px; text-align: center;">
-          <p style="margin: 0 0 10px 0;">
-            Questions? Contact us at support@groundtruthlabs.org
-          </p>
-          <p style="margin: 0;">
-            © ${new Date().getFullYear()} ${COMPANY_NAME}. All rights reserved.
-          </p>
-        </div>
-      </div>
-    `,
+    subject: `You're invited to ${COMPANY_NAME}`,
+    html: emailWrapper(`
+      ${eyebrow('Invitation')}
+      <h1 style="font-family:'Courier New',Courier,monospace;font-size:22px;font-weight:700;color:#0f172a;margin:0 0 14px 0;line-height:1.2;">
+        You've been invited
+      </h1>
+      <p style="font-family:Arial,sans-serif;font-size:14px;color:#475569;margin:0;line-height:1.7;">
+        ${inviterName ? `<strong style="color:#0f172a;">${inviterName}</strong> from ` : ''}${COMPANY_NAME} has set up a client account for you. Accept the invitation to access your project data, NDVI reports, and deliverables.
+      </p>
+      ${ctaButton(inviteLink, 'Accept Invitation →')}
+      ${divider()}
+      <table cellpadding="0" cellspacing="0" border="0" style="width:100%;">
+        <tr>
+          <td style="width:50%;padding-right:16px;vertical-align:top;">
+            <p style="font-family:'Courier New',Courier,monospace;font-size:10px;font-weight:700;color:#0e7490;letter-spacing:0.12em;text-transform:uppercase;margin:0 0 6px 0;">NDVI + Ortho</p>
+            <p style="font-family:Arial,sans-serif;font-size:12px;color:#64748b;margin:0;line-height:1.6;">Vegetation health maps and high-resolution orthomosaics</p>
+          </td>
+          <td style="width:50%;vertical-align:top;">
+            <p style="font-family:'Courier New',Courier,monospace;font-size:10px;font-weight:700;color:#0e7490;letter-spacing:0.12em;text-transform:uppercase;margin:0 0 6px 0;">48hr turnaround</p>
+            <p style="font-family:Arial,sans-serif;font-size:12px;color:#64748b;margin:0;line-height:1.6;">Reports and annotations delivered fast</p>
+          </td>
+        </tr>
+      </table>
+    `),
   }),
 };
 

@@ -8,9 +8,10 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { registerUser } from "@/app/auth/actions";
+import { registerUser, resendVerificationEmail } from "@/app/auth/actions";
 
 type State = "idle" | "loading" | "error" | "verify_email";
+type ResendState = "idle" | "sending" | "sent" | "error";
 
 export function SignupForm() {
   const searchParams = useSearchParams();
@@ -21,6 +22,7 @@ export function SignupForm() {
   const [company, setCompany] = useState("");
   const [state, setState] = useState<State>("idle");
   const [error, setError] = useState("");
+  const [resendState, setResendState] = useState<ResendState>("idle");
 
   useEffect(() => {
     const emailParam = searchParams.get("email");
@@ -47,17 +49,26 @@ export function SignupForm() {
     }
 
     try {
-      await registerUser({
-        email,
-        password,
-        company,
-      });
+      await registerUser({ email, password, company });
       setState("verify_email");
     } catch (signupError) {
       const message =
         signupError instanceof Error ? signupError.message : "Failed to create account";
       setError(message);
       setState("error");
+    }
+  }
+
+  async function handleResend() {
+    setResendState("sending");
+    try {
+      await resendVerificationEmail(email);
+      setResendState("sent");
+      setTimeout(() => setResendState("idle"), 4000);
+    } catch (err) {
+      console.error("Resend failed:", err instanceof Error ? err.message : String(err));
+      setResendState("error");
+      setTimeout(() => setResendState("idle"), 4000);
     }
   }
 
@@ -76,9 +87,26 @@ export function SignupForm() {
           We've sent a verification link to<br />
           <span className="font-semibold">{email}</span>
         </p>
-        <p className="font-sans text-xs text-slate-500">
+        <p className="font-sans text-xs text-slate-500 mb-6">
           Click the link in your email to confirm your account and get started.
         </p>
+
+        <div className="flex flex-col items-center gap-2">
+          <button
+            onClick={handleResend}
+            disabled={resendState === "sending" || resendState === "sent"}
+            className="font-sans text-xs text-cyan-700 hover:text-cyan-800 hover:underline disabled:opacity-50 disabled:no-underline disabled:cursor-not-allowed transition-colors"
+          >
+            {resendState === "sending"
+              ? "Sending…"
+              : resendState === "sent"
+              ? "Email sent!"
+              : "Didn't get it? Resend email"}
+          </button>
+          {resendState === "error" && (
+            <p className="font-sans text-xs text-red-500">Failed to resend. Try again.</p>
+          )}
+        </div>
       </div>
     );
   }

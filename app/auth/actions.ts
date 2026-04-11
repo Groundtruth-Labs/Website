@@ -35,18 +35,68 @@ export async function registerUser({
       throw error;
     }
 
-    if (!data?.properties?.action_link) {
+    if (!data?.properties?.hashed_token) {
       throw new Error('Failed to generate verification link');
     }
 
+    // Build an intermediate URL on our domain — prevents Gmail's link
+    // pre-fetcher from consuming the one-time Supabase token before the
+    // user clicks it. The token is only exchanged when the user hits the
+    // "Confirm email" button on /auth/verify.
+    // Note: Supabase returns the field as `hashed_token` but the URL param
+    // it expects on /auth/callback is `token_hash`.
+    const verifyUrl = new URL(`${SITE_URL}/auth/verify`);
+    verifyUrl.searchParams.set('token_hash', data.properties.hashed_token);
+    verifyUrl.searchParams.set('type', 'signup');
+    verifyUrl.searchParams.set('next', '/onboarding');
+
     await sendEmail(email, 'verification', {
-      verifyLink: data.properties.action_link,
+      verifyLink: verifyUrl.toString(),
       email,
     });
 
     return { success: true };
   } catch (error) {
     console.error('Signup error:', error);
+    throw error;
+  }
+}
+
+export async function resendVerificationEmail(email: string) {
+  try {
+    const admin = createAdminClient();
+
+    // Use 'email_change_new' won't work for unverified users — use magiclink
+    // which generates a valid one-time login link for any user state.
+    const { data, error } = await admin.auth.admin.generateLink({
+      type: 'magiclink',
+      email,
+      options: {
+        redirectTo: `${SITE_URL}/auth/callback?next=/onboarding`,
+      },
+    });
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    if (!data?.properties?.hashed_token) {
+      throw new Error('Failed to generate verification link');
+    }
+
+    const verifyUrl = new URL(`${SITE_URL}/auth/verify`);
+    verifyUrl.searchParams.set('token_hash', data.properties.hashed_token);
+    verifyUrl.searchParams.set('type', 'magiclink');
+    verifyUrl.searchParams.set('next', '/onboarding');
+
+    await sendEmail(email, 'verification', {
+      verifyLink: verifyUrl.toString(),
+      email,
+    });
+
+    return { success: true };
+  } catch (error) {
+    console.error('Resend verification error:', error);
     throw error;
   }
 }
