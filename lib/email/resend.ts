@@ -1,7 +1,5 @@
 import { Resend } from 'resend';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-
 const FROM_EMAIL = 'noreply@groundtruthlabs.org';
 const COMPANY_NAME = 'Groundtruth Labs';
 
@@ -166,6 +164,7 @@ export async function sendEmail(
       throw new Error('RESEND_API_KEY is not configured');
     }
 
+    const resend = new Resend(process.env.RESEND_API_KEY);
     const templateFn = emailTemplates[template] as any;
     if (!templateFn) {
       throw new Error(`Unknown email template: ${template}`);
