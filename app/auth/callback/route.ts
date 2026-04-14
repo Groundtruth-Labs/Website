@@ -1,26 +1,29 @@
 import { createServerClient } from "@supabase/ssr";
-import { cookies } from "next/headers";
-import { NextResponse } from "next/server";
+import { NextResponse, type NextRequest } from "next/server";
 
-export async function GET(request: Request) {
-  const { searchParams: rawSearchParams, origin } = new URL(request.url);
-  const code = rawSearchParams.get("code");
-  const tokenHash = rawSearchParams.get("token_hash");
-  const type = rawSearchParams.get("type");
-  const next = rawSearchParams.get("next") ?? "/dashboard";
+export async function GET(request: NextRequest) {
+  const { searchParams, origin } = new URL(request.url);
+  const code = searchParams.get("code");
+  const tokenHash = searchParams.get("token_hash");
+  const type = searchParams.get("type");
+  const next = searchParams.get("next") ?? "/dashboard";
 
-  const cookieStore = await cookies();
+  // Create the redirect response upfront so we can set session cookies directly
+  // on it. Next.js does NOT propagate cookies set via cookies() when the
+  // response is a redirect — they must be written to the response object itself.
+  const successResponse = NextResponse.redirect(`${origin}${next}`);
+
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
       cookies: {
         getAll() {
-          return cookieStore.getAll();
+          return request.cookies.getAll();
         },
         setAll(cookiesToSet: { name: string; value: string; options?: object }[]) {
           cookiesToSet.forEach(({ name, value, options }) =>
-            cookieStore.set(name, value, options)
+            successResponse.cookies.set(name, value, options as Parameters<typeof successResponse.cookies.set>[2])
           );
         },
       },
@@ -44,7 +47,7 @@ export async function GET(request: Request) {
   }
 
   if (!error) {
-    return NextResponse.redirect(`${origin}${next}`);
+    return successResponse;
   }
 
   return NextResponse.redirect(`${origin}/login?error=auth_failed`);

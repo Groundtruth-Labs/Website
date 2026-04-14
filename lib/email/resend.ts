@@ -1,6 +1,6 @@
 import { Resend } from 'resend';
 
-const FROM_EMAIL = 'noreply@groundtruthlabs.org';
+const FROM_EMAIL = 'Groundtruth Labs <noreply@groundtruthlabs.org>';
 const COMPANY_NAME = 'Groundtruth Labs';
 
 // ─── Shared layout pieces ───────────────────────────────────────────────────
@@ -83,7 +83,8 @@ function divider() {
 
 const emailTemplates = {
   verification: (verifyLink: string, email: string) => ({
-    subject: `Verify your email — ${COMPANY_NAME}`,
+    subject: `Confirm your email address`,
+    text: `Confirm your account\n\nYou signed up with ${email}. Click the link below to verify your address and get access to your dashboard.\n\n${verifyLink}\n\nOnce verified, you'll complete a short onboarding and land in your project dashboard.\n\n— ${COMPANY_NAME}`,
     html: emailWrapper(`
       ${eyebrow('Email verification')}
       <h1 style="font-family:'Courier New',Courier,monospace;font-size:22px;font-weight:700;color:#0f172a;margin:0 0 14px 0;line-height:1.2;">
@@ -101,7 +102,8 @@ const emailTemplates = {
   }),
 
   passwordReset: (resetLink: string) => ({
-    subject: `Reset your password — ${COMPANY_NAME}`,
+    subject: `Reset your ${COMPANY_NAME} password`,
+    text: `Reset your password\n\nWe got a request to reset your ${COMPANY_NAME} password. Click the link below to choose a new one.\n\n${resetLink}\n\nDidn't request this? Ignore this email. Your password won't change.\n\n— ${COMPANY_NAME}`,
     html: emailWrapper(`
       ${eyebrow('Password reset')}
       <h1 style="font-family:'Courier New',Courier,monospace;font-size:22px;font-weight:700;color:#0f172a;margin:0 0 14px 0;line-height:1.2;">
@@ -125,7 +127,8 @@ const emailTemplates = {
   }),
 
   invite: (inviteLink: string, inviterName?: string) => ({
-    subject: `You're invited to ${COMPANY_NAME}`,
+    subject: `Your ${COMPANY_NAME} dashboard is ready`,
+    text: `You've been invited\n\n${inviterName ? `${inviterName} from ` : ''}${COMPANY_NAME} has set up a client account for you. Accept the invitation to access your project data, NDVI reports, and deliverables.\n\n${inviteLink}\n\n— ${COMPANY_NAME}`,
     html: emailWrapper(`
       ${eyebrow('Invitation')}
       <h1 style="font-family:'Courier New',Courier,monospace;font-size:22px;font-weight:700;color:#0f172a;margin:0 0 14px 0;line-height:1.2;">
@@ -170,12 +173,13 @@ export async function sendEmail(
       throw new Error(`Unknown email template: ${template}`);
     }
 
-    const { subject, html } = templateFn(...Object.values(data));
+    const { subject, text, html } = templateFn(...Object.values(data));
 
     const response = await resend.emails.send({
       from: FROM_EMAIL,
       to,
       subject,
+      text,
       html,
     });
 
