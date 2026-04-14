@@ -7,12 +7,10 @@ const AVATAR_COLORS = ["#0e7490", "#0f172a", "#f59e0b", "#e2e8f0", "#f8fafc"];
 const members = [
   {
     name: "Tahan B.",
-    role: "Co-Founder",
     bio: "Tahan is a student at Punahou School with a focus on sustainability, data science, and environmental technology. He was part of Punahou's inaugural Sustainability Fellowship cohort, where he analyzed wave energy data using acoustic profiling instruments at the University of Hawaiʻi Wave Energy Lab.",
   },
   {
     name: "Josh Z.",
-    role: "Co-Founder",
     bio: "Josh is a student at Punahou School in Hawaiʻi with a background in computer science and applied AI research. He has spent the past two years working with the University of Hawaiʻi AI Transportation Lab, where he heavily contributed to research on nighttime pedestrian behavior recognition and LiDAR-based sensing.",
   },
 ];
@@ -41,12 +39,9 @@ export function TeamSection() {
                   colors={AVATAR_COLORS}
                 />
               </div>
-              <h3 className="font-mono text-base font-semibold text-slate-900">
+              <h3 className="font-mono text-base font-semibold text-slate-900 mb-3">
                 {member.name}
               </h3>
-              <p className="font-mono text-xs text-cyan-700 uppercase tracking-widest mt-1 mb-3">
-                {member.role}
-              </p>
               <p className="font-sans text-sm text-slate-600 leading-relaxed">
                 {member.bio}
               </p>
